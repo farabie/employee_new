@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Models\hrd;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class PemotonganCuti extends Model
+{
+    use HasFactory;
+    protected $table = 'tb_setup_cuti';
+    protected $primaryKey = 'id_setup_cuti';
+
+    protected $fillable = ['jenis_setup_cuti', 'lama_cuti', 'tgl_mulai', 'tgl_selesai', 'keterangan', 'created_by'];
+}
