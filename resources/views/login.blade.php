@@ -48,10 +48,10 @@
             <div class="col-xl-5 p-0">
                 <div class="login-card login-dark">
                     <div>
-                        <div><a class="logo text-start" href="index.html"><img class="img-fluid for-light"
+                        {{-- <div><a class="logo text-start" href="index.html"><img class="img-fluid for-light"
                                     src="../assets/images/logo/logo.png" alt="looginpage"><img
                                     class="img-fluid for-dark" src="../assets/images/logo/logo_dark.png"
-                                    alt="looginpage"></a></div>
+                                    alt="looginpage"></a></div> --}}
                         <div class="login-main">
                             <form method="POST" action="{{ route('login') }}" class="theme-form">
                                 @csrf
