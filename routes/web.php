@@ -18,16 +18,22 @@ use App\Http\Controllers\hrd\setupEvent\HariLiburNasionalController;
 use App\Http\Controllers\hrd\setupEvent\KuotaCutiController;
 use App\Http\Controllers\hrd\setupEvent\PemotonganCutiController;
 use App\Http\Controllers\hrd\trackingDocument\TrackingDocumentController;
+use Illuminate\Support\Facades\Auth;
 
+// Route utama - cek apakah user sudah login
 Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect()->route('dashboard');
+    }
     return view('login');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
+// Route untuk dashboard dengan middleware auth
+Route::get('/dashboard', DashboardController::class)
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
+require __DIR__.'/auth.php';
 //Master Setup
 Route::resource('master-setup/divisi', DivisiController::class)->except('show');
 Route::resource('master-setup/department', DepartmentController::class)->except('show');
@@ -147,4 +153,4 @@ Route::delete('employee/detail/pengalaman-kerja/delete', [EmployeeController::cl
 //Update Rekam Medis
 Route::put('employee/detail/rekam-medis/{nik}', [EmployeeController::class, 'updateDataRekamMedis'])->name('rekam-medis.update');
 
-require __DIR__.'/auth.php';
+
