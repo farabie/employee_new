@@ -1,8 +1,8 @@
 <?php
 
-
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\hrd\DashboardController;
+// use App\Http\Controllers\hrd\DashboardController;
 use App\Http\Controllers\hrd\employee\EmployeeController;
 use App\Http\Controllers\hrd\masterSetup\ApprovalUserController;
 use App\Http\Controllers\hrd\masterSetup\DepartmentController;
@@ -29,7 +29,7 @@ Route::get('/', function () {
 });
 
 // Route untuk dashboard dengan middleware auth
-Route::get('/dashboard', DashboardController::class)
+Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
