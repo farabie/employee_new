@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Login')
+@section('title', 'HRIS')
 
 @section('content')
     <div class="col-xl-7">

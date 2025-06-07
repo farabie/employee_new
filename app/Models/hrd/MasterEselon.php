@@ -9,7 +9,5 @@ class MasterEselon extends Model
 {
     use HasFactory;
     protected $table = 'tb_masteresl';
-    protected $primaryKey = 'id_masteresl';
-
     protected $fillable = ['nama_masteresl'];
 }

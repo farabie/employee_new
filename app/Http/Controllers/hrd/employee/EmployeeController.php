@@ -28,7 +28,6 @@ use App\Models\hrd\Karir;
 use App\Models\hrd\KontrakKaryawan;
 use App\Models\hrd\LokasiKerja;
 use App\Models\hrd\MasterEselon;
-use App\Models\hrd\MasterGrade;
 use App\Models\hrd\MasterJabatan;
 use App\Models\hrd\MasterPosisi;
 use App\Models\hrd\PenilaianAkhir;
@@ -125,23 +124,8 @@ class EmployeeController extends Controller
 
 
     public function detail($nik) {
-        // $query = Pegawai::leftJoin('tb_jabatan', 'tb_pegawai.id_peg', '=', 'tb_jabatan.id_peg')
-        //                 ->leftJoin('tb_masterjab', 'tb_jabatan.jabatan', '=', 'tb_masterjab.id_masterjab')
-        //                 // Self Join untuk mengambil nama atasan_1
-        //                 ->leftJoin('tb_pegawai as atasan1', 'tb_pegawai.atasan_1', '=', 'atasan1.id_peg')
-        //                 // Self Join untuk mengambil nama atasan_2
-        //                 ->leftJoin('tb_pegawai as atasan2', 'tb_pegawai.atasan_2', '=', 'atasan2.id_peg')
-        //                 ->where('tb_pegawai.nik', $nik)
-        //                 ->select(
-        //                     'tb_pegawai.*',
-        //                     'tb_jabatan.*',
-        //                     'tb_masterjab.nama_masterjab',
-        //                     'atasan1.nama as nama_atasan_1', // Ambil nama atasan_1
-        //                     'atasan2.nama as nama_atasan_2'  // Ambil nama atasan_2
-        //                 );
-
         $query = Pegawai::leftJoin('tb_jabatan', 'tb_pegawai.id_peg', '=', 'tb_jabatan.id_peg')
-                ->leftJoin('tb_masterjab', 'tb_jabatan.jabatan', '=', 'tb_masterjab.id_masterjab')
+                ->leftJoin('tb_masterjab', 'tb_jabatan.jabatan', '=', 'tb_masterjab.id')
                 // Self Join untuk mengambil nama atasan_1
                 ->leftJoin('tb_pegawai as atasan1', 'tb_pegawai.atasan_1', '=', 'atasan1.id_peg')
                 // Self Join untuk mengambil nama atasan_2
@@ -149,7 +133,7 @@ class EmployeeController extends Controller
                 // Join ke tb_unit untuk ambil nama unit kerja
                 ->leftJoin('tb_unit', 'tb_pegawai.unit_kerja', '=', 'tb_unit.id_unit')
                 // Join ke tb_department untuk ambil nama departemen
-                ->leftJoin('tb_department', 'tb_pegawai.id_departement', '=', 'tb_department.id_department')
+                ->leftJoin('tb_department', 'tb_pegawai.id_departement', '=', 'tb_department.id')
                 ->where('tb_pegawai.nik', $nik)
                 ->select(
                     'tb_pegawai.*',
@@ -186,8 +170,8 @@ class EmployeeController extends Controller
         ->get();
 
         $jabatan = Jabatan::query()
-        ->leftJoin('tb_masterjab', 'tb_masterjab.id_masterjab', '=', 'tb_jabatan.jabatan')
-        ->leftJoin('tb_masteresl', 'tb_masteresl.id_masteresl', '=', 'tb_jabatan.eselon')
+        ->leftJoin('tb_masterjab', 'tb_masterjab.id', '=', 'tb_jabatan.jabatan')
+        ->leftJoin('tb_masteresl', 'tb_masteresl.id', '=', 'tb_jabatan.eselon')
         ->select('tb_jabatan.*', 
                  'tb_masterjab.nama_masterjab as nama_jabatan', 
                  'tb_masteresl.nama_masteresl as grade')
@@ -235,7 +219,7 @@ class EmployeeController extends Controller
 
         $transisiKarir = Karir::query()
         ->where('nik', $nik)
-        ->join('tb_masterjab', 'tb_karir.jabatan_baru', '=', 'tb_masterjab.id_masterjab')
+        ->join('tb_masterjab', 'tb_karir.jabatan_baru', '=', 'tb_masterjab.id')
         ->select('tb_karir.*', 'tb_masterjab.nama_masterjab as jabatan_baru_nama')
         ->get();
 
@@ -393,7 +377,7 @@ class EmployeeController extends Controller
             } elseif (in_array($data['status_hub'], ['Suami', 'Istri'])) {
                 SuamiIstri::where('id_si', $id)->update($data);
             } elseif (preg_match('/Anak Ke [1-7]/', $data['status_hub'])) {
-                Anak::where('id_anak', $id)->update($data);
+                Anak::where('id', $id)->update($data);
             }
     
             return response()->json([
@@ -433,7 +417,7 @@ class EmployeeController extends Controller
                 case 'Anak Ke 5':
                 case 'Anak Ke 6':
                 case 'Anak Ke 7':
-                    $deleted = Anak::where('id_anak', $id)->delete();
+                    $deleted = Anak::where('id', $id)->delete();
                 break;
                 default:
                     return response()->json(['message' => 'Invalid type'], 400);
@@ -1054,11 +1038,11 @@ class EmployeeController extends Controller
     {
         try {
             $data = $request->validated();
-            $id_bhs = $data['id_bhs'];
+            $id = $data['id'];
 
-            unset($data['id_bhs']);
+            unset($data['id']);
 
-            if (!$id_bhs) {
+            if (!$id) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Data tidak ditemukan.',
@@ -1067,7 +1051,7 @@ class EmployeeController extends Controller
 
 
             // Update data ke DB
-            Bahasa::where('id_bhs', $id_bhs)->update($data);
+            Bahasa::where('id', $id)->update($data);
 
             return response()->json([
                 'success' => true,
@@ -1084,10 +1068,10 @@ class EmployeeController extends Controller
 
     public function destroyDataBahasa(Request $request)
     {
-        $id_bhs = $request->id_bhs;
+        $id = $request->id;
 
         try {
-            $deleted = Bahasa::where('id_bhs', $id_bhs)->delete(); // FIXED!
+            $deleted = Bahasa::where('id', $id)->delete(); // FIXED!
 
             if ($deleted) {
                 return response()->json(['success' => true, 'message' => 'Data deleted successfully'], 200);
@@ -1290,11 +1274,11 @@ class EmployeeController extends Controller
     {
         try {
             $data = $request->validated();
-            $id_history = $data['id_history'];
+            $id = $data['id'];
 
-            unset($data['id_history']);
+            unset($data['id']);
 
-            if (!$id_history) {
+            if (!$id) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Data tidak ditemukan.',
@@ -1310,7 +1294,7 @@ class EmployeeController extends Controller
             }
 
             // Update data ke DB
-            PengalamanKerja::where('id_history', $id_history)->update($data);
+            PengalamanKerja::where('id', $id)->update($data);
 
             return response()->json([
                 'success' => true,
@@ -1327,11 +1311,11 @@ class EmployeeController extends Controller
 
     public function destroyDataPengalamanKerja(Request $request)
     {
-        $id_history = $request->id_history;
+        $id = $request->id;
 
         try {
             // Ambil data npwp
-            $pengalamanKerja = PengalamanKerja::where('id_history', $id_history)->first();
+            $pengalamanKerja = PengalamanKerja::where('id', $id)->first();
 
             if (!$pengalamanKerja) {
                 return response()->json(['success' => false, 'message' => 'Data not found'], 404);
@@ -1544,7 +1528,7 @@ class EmployeeController extends Controller
         $unit_kerja = Divisi::latest()->get()->unique('nama');
         $departments = Department::query()->latest()->get();
         $masterJabatan = MasterJabatan::query()->get();
-        $masterGrade = MasterGrade::query()->get();
+        $masterGrade = MasterEselon::query()->get();
         $masterPosisi = MasterPosisi::query()->get();
         $masterLokasi = LokasiKerja::query()->get();
 

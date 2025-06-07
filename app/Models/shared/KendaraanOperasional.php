@@ -9,5 +9,4 @@ class KendaraanOperasional extends Model
 {
     use HasFactory; 
     protected $table = 'tb_kendaraan_operasional';
-    protected $primaryKey = 'id_kendaraan_operasional';
 }

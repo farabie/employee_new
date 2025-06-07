@@ -861,7 +861,7 @@
                                                             <td>
                                                                 <a type="button"
                                                                     class="btn btn-success btn-edit-keluarga"
-                                                                    data-id="{{ isset($data->id_ortu) ? $data->id_ortu : (isset($data->id_si) ? $data->id_si : (isset($data->id_anak) ? $data->id_anak : '')) }}"
+                                                                    data-id="{{ isset($data->id_ortu) ? $data->id_ortu : (isset($data->id_si) ? $data->id_si : (isset($data->id) ? $data->id : '')) }}"
                                                                     data-nik="{{ $data->nik }}"
                                                                     data-nama="{{ $data->nama }}"
                                                                     data-tmp_lhr="{{ $data->tmp_lhr }}"
@@ -875,7 +875,7 @@
                                                                 </a>
                                                                 <a type="button" class="btn btn-danger btn-delete"
                                                                     data-url="{{ route('keluarga.delete') }}"
-                                                                    data-id="{{ isset($data->id_ortu) ? $data->id_ortu : (isset($data->id_si) ? $data->id_si : (isset($data->id_anak) ? $data->id_anak : '')) }}"
+                                                                    data-id="{{ isset($data->id_ortu) ? $data->id_ortu : (isset($data->id_si) ? $data->id_si : (isset($data->id) ? $data->id : '')) }}"
                                                                     data-type="{{ $data->status_hub }}"
                                                                     data-name="{{ $data->nama }}" title="hapus">
                                                                     <i class="fa-solid fa-trash-can"></i>
@@ -1338,9 +1338,9 @@
                                             <select class="form-select" name="id_departement" id="id_departement">
                                                 <option selected disabled value="">...</option>
                                                 @foreach ($departments as $data)
-                                                    <option value="{{ $data->id_department }}"
-                                                        @if (old('id_departement', $pegawai->id_departement) == $data->id_department &&
-                                                                $departments->contains('id_department', $pegawai->id_departement)) selected @endif>
+                                                    <option value="{{ $data->id }}"
+                                                        @if (old('id_departement', $pegawai->id_departement) == $data->id &&
+                                                                $departments->contains('id', $pegawai->id_departement)) selected @endif>
                                                         {{ $data->nama_department }}
                                                     </option>
                                                 @endforeach
@@ -1371,11 +1371,11 @@
                                             <select class="form-select" name="jabatan" id="jabatan">
                                                 <option selected disabled value="">...</option>
                                                 @foreach ($masterJabatan as $data)
-                                                    <option value="{{ $data->id_masterjab }}"
+                                                    <option value="{{ $data->id }}"
                                                         @if (
                                                             !empty($pegawai->jabatan) &&
-                                                                old('jabatan', $pegawai->jabatan) == $data->id_masterjab &&
-                                                                $masterJabatan->contains('id_masterjab', $pegawai->jabatan)) selected @endif>
+                                                                old('jabatan', $pegawai->jabatan) == $data->id &&
+                                                                $masterJabatan->contains('id', $pegawai->jabatan)) selected @endif>
                                                         {{ $data->nama_masterjab }}
                                                     </option>
                                                 @endforeach
@@ -1386,11 +1386,11 @@
                                             <select class="form-select" name="eselon" id="eselon">
                                                 <option selected disabled value="">...</option>
                                                 @foreach ($masterGrade as $data)
-                                                    <option value="{{ $data->id_masteresl }}"
+                                                    <option value="{{ $data->id }}"
                                                         @if (
                                                             !empty($pegawai->eselon) &&
-                                                                old('eselon', $pegawai->eselon) == $data->id_masteresl &&
-                                                                $masterGrade->contains('id_masteresl', $pegawai->eselon)) selected @endif>
+                                                                old('eselon', $pegawai->eselon) == $data->id &&
+                                                                $masterGrade->contains('id', $pegawai->eselon)) selected @endif>
                                                         {{ $data->nama_masteresl }}
                                                     </option>
                                                 @endforeach
@@ -2234,7 +2234,7 @@
                                                             <td>
                                                                 <a type="button"
                                                                     class="btn btn-success btn-edit-bahasa"
-                                                                    data-id_bhs ="{{ $data->id_bhs }}"
+                                                                    data-id ="{{ $data->id }}"
                                                                     data-jns_bhs ="{{ $data->jns_bhs }}"
                                                                     data-bahasa ="{{ $data->bahasa }}"
                                                                     data-kemampuan ="{{ $data->kemampuan }}"
@@ -2244,7 +2244,7 @@
                                                                 <a type="button"
                                                                     class="btn btn-danger btn-delete-bahasa"
                                                                     data-url="{{ route('bahasa.delete') }}"
-                                                                    data-id_bhs = "{{ $data->id_bhs }}"
+                                                                    data-id = "{{ $data->id }}"
                                                                     data-name="{{ $data->bahasa }}" title="hapus">
                                                                     <i class="fa-solid fa-trash-can"></i>
                                                                 </a>
@@ -2272,7 +2272,7 @@
                                         method="post" enctype="multipart/form-data">
                                         @method('POST')
                                         @csrf
-                                        <input type="hidden" name="id_bhs" id="id_bhs">
+                                        <input type="hidden" name="id" id="id">
                                         <div class="col-12 position-relative">
                                             <label class="form-label" for="jns_bhs"><span style="color: red">*</span>
                                                 Jenis Bahasa</label>
@@ -2608,7 +2608,7 @@
                                                             <td>
                                                                 <a type="button"
                                                                     class="btn btn-success btn-edit-pengalaman-kerja"
-                                                                    data-id_history ="{{ $data->id_history }}"
+                                                                    data-id ="{{ $data->id }}"
                                                                     data-periode_start ="{{ $data->periode_start }}"
                                                                     data-periode_end ="{{ $data->periode_end }}"
                                                                     data-nama_perusahaan ="{{ $data->nama_perusahaan }}"
@@ -2624,7 +2624,7 @@
                                                                 <a type="button"
                                                                     class="btn btn-danger btn-delete-pengalaman-kerja"
                                                                     data-url="{{ route('pengalaman-kerja.delete') }}"
-                                                                    data-id_history ="{{ $data->id_history }}"
+                                                                    data-id ="{{ $data->id }}"
                                                                     data-name="Pengalaman Kerja: {{ $data->nama_perusahaan }}"
                                                                     title="hapus">
                                                                     <i class="fa-solid fa-trash-can"></i>
@@ -2654,7 +2654,7 @@
                                         enctype="multipart/form-data">
                                         @method('POST')
                                         @csrf
-                                        <input type="hidden" name="id_history" id="id_history">
+                                        <input type="hidden" name="id" id="id">
                                         <div class="col-6 position-relative">
                                             <label class="form-label" for="periode_start">Periode Awal Kerja</label>
                                             <input class="form-control" name="periode_start" placeholder="Mulai"
@@ -5026,7 +5026,7 @@
         $(document).on("click", ".btn-edit-bahasa", function(event) {
             event.preventDefault();
 
-            let id_bhs = $(this).data("id_bhs");
+            let id = $(this).data("id");
             let jns_bhs = $(this).data("jns_bhs");
             let bahasa = $(this).data("bahasa");
             let kemampuan = $(this).data("kemampuan");
@@ -5035,7 +5035,7 @@
             // console.log(tgl_lhr)
 
             // Pastikan hidden input id diisi
-            $("#formDataBahasa input[name='id_bhs']").val(id_bhs);
+            $("#formDataBahasa input[name='id']").val(id);
             $("#formDataBahasa input[name='jns_bhs']").val(jns_bhs);
             $("#formDataBahasa input[name='bahasa']").val(bahasa);
             $("#formDataBahasa select[name='kemampuan']").val(kemampuan);
@@ -5091,7 +5091,7 @@
 
                 event.preventDefault();
                 let deleteUrl = button.getAttribute("data-url");
-                let itemId = button.getAttribute("data-id_bhs"); // FIXED!
+                let itemId = button.getAttribute("data-id"); // FIXED!
                 let itemName = button.getAttribute("data-name");
 
                 console.log("Delete URL:", deleteUrl);
@@ -5119,7 +5119,7 @@
                                     "Content-Type": "application/json"
                                 },
                                 body: JSON.stringify({
-                                    id_bhs: itemId,
+                                    id: itemId,
                                 })
                             }).then(response => response.json())
                             .then(data => {
@@ -5662,7 +5662,7 @@
         $(document).on("click", ".btn-edit-pengalaman-kerja", function(event) {
             event.preventDefault();
 
-            let id_history = $(this).data("id_history");
+            let id = $(this).data("id");
             let periode_start = $(this).data("periode_start");
             let periode_end = $(this).data("periode_end");
             let nama_perusahaan = $(this).data("nama_perusahaan");
@@ -5678,7 +5678,7 @@
             // console.log(tgl_lhr)
 
             // Pastikan hidden input id diisi
-            $("#formDataPengalamanKerja input[name='id_history']").val(id_history);
+            $("#formDataPengalamanKerja input[name='id']").val(id);
             //Periode Start Pengalaman Kerja
             let periodeStartInput = document.querySelector("input[name='periode_start']");
             periodeStartInput.value = periode_start; // fallback untuk jaga-jaga
@@ -5800,7 +5800,7 @@
 
                 event.preventDefault();
                 let deleteUrl = button.getAttribute("data-url");
-                let itemId = button.getAttribute("data-id_history"); // FIXED!
+                let itemId = button.getAttribute("data-id"); // FIXED!
                 let itemName = button.getAttribute("data-name");
 
                 console.log("Delete URL:", deleteUrl);
@@ -5828,7 +5828,7 @@
                                     "Content-Type": "application/json"
                                 },
                                 body: JSON.stringify({
-                                    id_history: itemId,
+                                    id: itemId,
                                 })
                             }).then(response => response.json())
                             .then(data => {

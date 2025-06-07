@@ -388,7 +388,7 @@
                                                 class="js-example-basic-single">
                                                 <option selected disabled value="">Pilih Departemen</option>
                                                 @foreach ($departments as $data)
-                                                    <option value="{{ $data->id_department }}">
+                                                    <option value="{{ $data->id }}">
                                                         {{ $data->nama_department }}
                                                     </option>
                                                 @endforeach
@@ -458,7 +458,7 @@
                                             <select name="jabatan" id="jabatan" class="js-example-basic-single">
                                                 <option selected disabled value="">Pilih Jabatan</option>
                                                 @foreach ($masterJabatan as $data)
-                                                    <option value="{{ $data->id_masterjab }}">
+                                                    <option value="{{ $data->id }}">
                                                         {{ $data->nama_masterjab }}
                                                     </option>
                                                 @endforeach
@@ -472,7 +472,7 @@
                                             <select name="eselon" id="eselon" class="js-example-basic-single">
                                                 <option selected disabled value="">Pilih Grade</option>
                                                 @foreach ($masterGrade as $data)
-                                                    <option value="{{ $data->id_masteresl }}">
+                                                    <option value="{{ $data->id }}">
                                                         {{ $data->nama_masteresl }}
                                                     </option>
                                                 @endforeach

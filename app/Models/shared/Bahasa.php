@@ -9,7 +9,7 @@ class Bahasa extends Model
 {
     use HasFactory;
     protected $table = 'tb_bahasa';
-    protected $primaryKey = 'id_bhs';
+    protected $primaryKey = 'id';
 
     protected $fillable = ['nik', 'jns_bhs', 'bahasa', 'kemampuan'];
 }

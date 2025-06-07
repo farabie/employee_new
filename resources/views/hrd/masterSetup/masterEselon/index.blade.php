@@ -104,11 +104,11 @@
                                     <td>{{ $data->nama_masteresl }}</td>
                                     <td>
                                         <a type="button" class="btn btn-success"
-                                            href="{{ route('master-eselon.edit', $data->id_masteresl ) }}" title="edit">
+                                            href="{{ route('master-eselon.edit', $data->id ) }}" title="edit">
                                             <i class="fa-regular fa-pen-to-square"></i>
                                         </a>
                                         <a type="button" class="btn btn-danger btn-delete"
-                                            data-url="{{ route('master-eselon.destroy', $data->id_masteresl) }}"
+                                            data-url="{{ route('master-eselon.destroy', $data->id) }}"
                                             data-name="{{ $data->nama_masteresl }}" title="hapus">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </a>

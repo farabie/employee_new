@@ -22,7 +22,7 @@ class PengalamanKerjaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_history' => ['nullable', 'integer'],
+            'id' => ['nullable', 'integer'],
             'nik' => ['nullable', 'string'],
             'periode_start' => ['nullable','date'],
             'periode_end' => ['nullable','date'],

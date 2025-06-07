@@ -9,5 +9,4 @@ class KopensasiCutiBesar extends Model
 {
     use HasFactory; 
     protected $table = 'tb_kopensasi_cuti_besar';
-    protected $primaryKey = 'id_kopensasi';
 }

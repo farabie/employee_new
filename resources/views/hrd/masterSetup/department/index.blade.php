@@ -63,11 +63,11 @@
                                     <td>{{ $department->nama_department }}</td>
                                     <td>
                                         <a type="button" class="btn btn-success"
-                                            href="{{ route('department.edit', $department->id_department) }}" title="edit">
+                                            href="{{ route('department.edit', $department->id) }}" title="edit">
                                             <i class="fa-regular fa-pen-to-square"></i>
                                         </a>
                                         <a type="button" class="btn btn-danger btn-delete"
-                                            data-url="{{ route('department.destroy', $department->id_department) }}"
+                                            data-url="{{ route('department.destroy', $department->id) }}"
                                             data-name="{{ $department->nama_department }}" title="hapus">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </a>

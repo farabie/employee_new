@@ -9,6 +9,5 @@ class Anak extends Model
 {
     use HasFactory;
     protected $table = 'tb_anak';
-    protected $primaryKey = 'id_anak';
     protected $fillable = ['id_user', 'nama', 'tmp_lhr', 'tgl_lhr', 'jk', 'pendidikan', 'pekerjaan', 'status_hub'];
 }

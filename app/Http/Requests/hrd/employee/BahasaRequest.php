@@ -22,7 +22,7 @@ class BahasaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_bhs' => ['nullable', 'integer'],
+            'id' => ['nullable', 'integer'],
             'nik' => ['nullable', 'string'],
             'jns_bhs' => ['nullable', 'string'],
             'bahasa' => ['nullable', 'string'],

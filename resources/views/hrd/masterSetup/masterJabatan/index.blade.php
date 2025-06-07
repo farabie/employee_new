@@ -104,11 +104,11 @@
                                     <td>{{ $data->nama_masterjab }}</td>
                                     <td>
                                         <a type="button" class="btn btn-success"
-                                            href="{{ route('master-jabatan.edit', $data->id_masterjab ) }}" title="edit">
+                                            href="{{ route('master-jabatan.edit', $data->id ) }}" title="edit">
                                             <i class="fa-regular fa-pen-to-square"></i>
                                         </a>
                                         <a type="button" class="btn btn-danger btn-delete"
-                                            data-url="{{ route('master-jabatan.destroy', $data->id_masterjab) }}"
+                                            data-url="{{ route('master-jabatan.destroy', $data->id) }}"
                                             data-name="{{ $data->nama_masterjab }}" title="hapus">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </a>
