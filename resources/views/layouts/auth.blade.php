@@ -10,7 +10,7 @@
     <meta name="author" content="pixelstrap">
     <link rel="icon" href="{{ asset('assets/images/logo/icon_trias.png') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('assets/images/logo/icon_trias.png') }}" type="image/x-icon">
-    <title>@yield('title', 'Authentication') | Cuba</title>
+    <title>@yield('title', 'Authentication')</title>
 
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,500,700&amp;display=swap" rel="stylesheet">
