@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tb_history_kerja', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_peg')->nullable();
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('nik', 50)->nullable();
             $table->date('periode_start')->nullable();
             $table->date('periode_end')->nullable();
@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('file', 150)->nullable();
             $table->string('execute_by', 255)->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 

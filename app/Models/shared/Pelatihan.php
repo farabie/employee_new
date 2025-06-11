@@ -9,6 +9,10 @@ class Pelatihan extends Model
 {
     use HasFactory;
     protected $table = 'tb_pelatihan';
-    protected $primaryKey = 'id_pelatihan';
-    protected $fillable = ['nik', 'jenis_pelatihan', 'sertifikat_kompetensi', 'nama_pelatihan', 'tempat_pelatihan', 'penyelenggara', 'tanggal_mulai_pelatihan', 'tanggal_selesai_pelatihan', 'nomor_sertifikat_pelatihan', 'tanggal_sertifikat_pelatihan','lainlain_pelatihan','file_sertifikat'];
+    protected $fillable = ['id_peg', 'nik', 'jenis_pelatihan', 'sertifikat_kompetensi', 'nama_pelatihan', 'tempat_pelatihan', 'penyelenggara', 'tanggal_mulai_pelatihan', 'tanggal_selesai_pelatihan', 'nomor_sertifikat_pelatihan', 'tanggal_sertifikat_pelatihan','lainlain_pelatihan','file_sertifikat'];
+
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'id_peg');
+    }
 }

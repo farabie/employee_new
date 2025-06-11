@@ -5,10 +5,10 @@ namespace App\Models\shared;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class KopensasiCutiBesar extends Model
+class StrukturOrganisasi extends Model
 {
-    use HasFactory; 
-    protected $table = 'tb_kopensasi_cuti_besar';
+    use HasFactory;
+    protected $table = 'tb_struktur_organisasi';
 
     public function pegawai()
     {

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tb_sekolah', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_peg')->nullable();
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('nik', 50)->nullable();
             $table->string('tingkat', 16)->nullable();
             $table->string('nama_sekolah', 64)->nullable();
@@ -25,6 +25,8 @@ return new class extends Migration
             $table->string('status', 5)->nullable();
             $table->string('file', 255)->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 

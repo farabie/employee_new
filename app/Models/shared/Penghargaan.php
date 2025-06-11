@@ -9,7 +9,10 @@ class Penghargaan extends Model
 {
     use HasFactory;
     protected $table = 'tb_penghargaan';
-    protected $primaryKey = 'id_penghargaan';
+    protected $fillable = ['id_peg','nik', 'penghargaan', 'tahun', 'pemberi', 'file'];
 
-    protected $fillable = ['nik', 'penghargaan', 'tahun', 'pemberi', 'file'];
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'id_peg');
+    }
 }

@@ -10,7 +10,11 @@ class Spd extends Model
 {
     use HasFactory;
     protected $table = 'tb_pengajuan_spd';
-    protected $primaryKey = 'id_spd';
+
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'id_peg');
+    }
     
     public function atasan1Nama()
     {
@@ -21,4 +25,5 @@ class Spd extends Model
     {
         return $this->belongsTo(Pegawai::class, 'atasan2', 'id_peg');
     }
+    
 }

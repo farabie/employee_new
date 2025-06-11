@@ -10,13 +10,15 @@ return new class extends Migration
     {
         Schema::create('tb_kopensasi_cuti_besar', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_peg')->nullable();
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('nik', 35)->nullable();
             $table->integer('jumlah')->nullable();
             $table->tinyInteger('approve')->nullable();
             $table->date('tgl_pengajuan')->nullable();
             $table->string('execute_by', 255)->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 

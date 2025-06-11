@@ -10,13 +10,15 @@ return new class extends Migration
     {
         Schema::create('tb_bahasa', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_peg');
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('nik', 50)->nullable();
             $table->string('jns_bhs', 32)->nullable();
             $table->string('bahasa', 32)->nullable();
             $table->string('kemampuan', 8)->nullable();
             $table->string('execute_by', 255)->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 

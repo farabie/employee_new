@@ -9,5 +9,9 @@ class Sertifikasi extends Model
 {
     use HasFactory;
     protected $table = 'tb_sertifikasi';
-    protected $primaryKey = 'id_sertifikat';
+
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'id_peg');
+    }
 }

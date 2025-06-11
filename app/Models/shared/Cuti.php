@@ -9,7 +9,6 @@ class Cuti extends Model
 {
     use HasFactory;
     protected $table = 'tb_new_cuti';
-    protected $primaryKey = 'id_cuti';
 
     public function pegawai() {
         return $this->belongsTo(Pegawai::class, 'id_peg');
@@ -26,4 +25,6 @@ class Cuti extends Model
     public function atasan2() {
         return $this->belongsTo(Pegawai::class, 'atasan_2');
     }
+
+    
 }

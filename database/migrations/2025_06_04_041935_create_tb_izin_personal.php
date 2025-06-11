@@ -32,8 +32,11 @@ return new class extends Migration
             $table->string('alasan', 255)->nullable();
             $table->string('id_absensi', 255)->nullable();
             $table->string('nik', 255)->nullable();
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('execute_by', 255)->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tb_new_cuti', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_peg')->nullable();
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('nik', 50)->nullable();
             $table->integer('id_unit')->nullable();
             $table->integer('id_mastercuti')->nullable();
@@ -40,6 +40,8 @@ return new class extends Migration
             $table->dateTime('date_approve_atasan_3')->nullable();
             $table->string('execute_by', 255)->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 

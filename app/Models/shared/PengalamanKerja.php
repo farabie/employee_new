@@ -9,7 +9,11 @@ class PengalamanKerja extends Model
 {
     use HasFactory;
     protected $table = 'tb_history_kerja';
-    protected $primaryKey = 'id_history';
 
-    protected $fillable = ['nik', 'periode_start', 'periode_end', 'nama_perusahaan', 'jenis_usaha', 'alamat','posisi_awal','posisi_akhir','jumlah_karyawan','keterangan','file'];
+    protected $fillable = ['id_peg', 'nik', 'periode_start', 'periode_end', 'nama_perusahaan', 'jenis_usaha', 'alamat','posisi_awal','posisi_akhir','jumlah_karyawan','keterangan','file'];
+
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'id_peg');
+    }
 }

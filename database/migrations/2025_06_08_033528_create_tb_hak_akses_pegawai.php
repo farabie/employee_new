@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tb_hak_akses_pegawai', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_peg')->nullable();
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('nik', 20)->nullable();
             $table->integer('hris')->nullable();
             $table->integer('aas')->nullable();
@@ -33,6 +33,8 @@ return new class extends Migration
             $table->integer('dms')->nullable();
             $table->integer('cms')->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 

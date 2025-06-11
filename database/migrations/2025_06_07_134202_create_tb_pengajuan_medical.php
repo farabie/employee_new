@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tb_pengajuan_medical', function (Blueprint $table) {
             $table->id();
             $table->string('nomor_medical_claim', 50)->nullable();
-            $table->integer('id_peg')->nullable();
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('nik', 50)->nullable();
             $table->string('tertanggung', 100)->nullable();
             $table->string('jenis_rembuisement', 100)->nullable();
@@ -42,6 +42,8 @@ return new class extends Migration
             $table->string('jumlah_payment', 50)->nullable();
             $table->dateTime('date_approval_treasury')->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 

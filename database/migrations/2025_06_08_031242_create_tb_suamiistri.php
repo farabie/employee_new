@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tb_suamiistri', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_peg')->nullable();
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('nik', 20)->nullable();
             $table->string('nama', 150)->nullable();
             $table->string('tmp_lhr', 64)->nullable();
@@ -25,6 +25,8 @@ return new class extends Migration
             $table->date('date_reg')->nullable();
             $table->string('file', 250)->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 

@@ -9,6 +9,10 @@ class Bahasa extends Model
 {
     use HasFactory;
     protected $table = 'tb_bahasa';
+    protected $fillable = ['id_peg', 'nik', 'jns_bhs', 'bahasa', 'kemampuan'];
 
-    protected $fillable = ['nik', 'jns_bhs', 'bahasa', 'kemampuan'];
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'id_peg');
+    }
 }

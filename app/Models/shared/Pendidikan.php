@@ -9,6 +9,10 @@ class Pendidikan extends Model
 {
     use HasFactory;
     protected $table = 'tb_sekolah';
-    protected $primaryKey = 'id_sekolah';
-    protected $fillable = ['nik', 'tingkat', 'nama_sekolah', 'lokasi', 'jurusan', 'tahun', 'ijazah', 'keterangan', 'file'];
+    protected $fillable = ['id_peg','nik', 'tingkat', 'nama_sekolah', 'lokasi', 'jurusan', 'tahun', 'ijazah', 'keterangan', 'file'];
+
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'id_peg');
+    }
 }

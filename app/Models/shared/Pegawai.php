@@ -3,6 +3,11 @@
 namespace App\Models\shared;
 
 use App\Models\hrd\Approval;
+use App\Models\hrd\Jabatan;
+use App\Models\hrd\Karir;
+use App\Models\hrd\KontrakKaryawan;
+use App\Models\hrd\PenilaianAkhir;
+use App\Models\hrd\SuratPeringatan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,5 +41,125 @@ class Pegawai extends Model
     public function bank()
     {
         return $this->hasMany(Bank::class, 'id_peg');
+    }
+
+    public function bahasa()
+    {
+        return $this->hasMany(Bahasa::class, 'id_peg');
+    }
+
+    public function penilaianAkhir()
+    {
+        return $this->hasMany(PenilaianAkhir::class, 'id_peg');
+    }
+
+    public function pengalamanKerja()
+    {
+        return $this->hasMany(PengalamanKerja::class, 'id_peg');
+    }
+
+    public function izinPersonal()
+    {
+        return $this->hasMany(IzinPersonal::class, 'id_peg');
+    }
+
+    public function jabatan()
+    {
+        return $this->hasOne(Jabatan::class, 'id_peg');
+    }
+
+    public function karir()
+    {
+        return $this->hasMany(Karir::class, 'id_peg');
+    }
+
+    public function kopensasiCutiBesar()
+    {
+        return $this->hasOne(KopensasiCutiBesar::class, 'id_peg');
+    }
+
+    public function limitRembuisement()
+    {
+        return $this->hasOne(LimitReimbursement::class, 'id_peg');
+    }
+
+    public function limitRembuisementTahunLalu()
+    {
+        return $this->hasOne(LimitReimbursementTahunLalu::class, 'id_peg');
+    }
+
+    public function meetingRoom()
+    {
+        return $this->hasMany(MeetingRoom::class, 'id_peg');
+    }
+
+    public function cuti()
+    {
+        return $this->hasMany(Cuti::class, 'id_peg');
+    }
+
+    public function npwp()
+    {
+        return $this->hasMany(Npwp::class, 'id_peg');
+    }
+
+    public function ortu()
+    {
+        return $this->hasMany(Ortu::class, 'id_peg');
+    }
+
+    public function pelatihan()
+    {
+        return $this->hasMany(Ortu::class, 'id_peg');
+    }
+
+    public function medical()
+    {
+        return $this->hasMany(Medical::class, 'id_peg');
+    }
+
+    public function spd()
+    {
+        return $this->hasMany(Spd::class, 'id_peg');
+    }
+
+    public function penghargaan()
+    {
+        return $this->hasMany(Penghargaan::class, 'id_peg');
+    }
+
+    public function sekolah()
+    {
+        return $this->hasMany(Pendidikan::class, 'id_peg');
+    }
+
+    public function sertifikasi()
+    {
+        return $this->hasMany(Sertifikasi::class, 'id_peg');
+    }
+
+    public function kontrakKaryawan()
+    {
+        return $this->hasMany(KontrakKaryawan::class, 'id_peg');
+    }
+
+    public function suamiIstri()
+    {
+        return $this->hasMany(KontrakKaryawan::class, 'id_peg');
+    }
+
+    public function suratPeringatan()
+    {
+        return $this->hasMany(SuratPeringatan::class, 'id_peg');
+    }
+
+    public function strukturOrganisasi()
+    {
+        return $this->hasOne(StrukturOrganisasi::class, 'id_peg');
+    }
+
+    public function hakAksesPegawai()
+    {
+        return $this->hasOne(HakAksesPegawai::class, 'id_peg');
     }
 }

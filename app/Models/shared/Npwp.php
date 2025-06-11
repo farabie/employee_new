@@ -11,5 +11,10 @@ class Npwp extends Model
     protected $table = 'tb_npwp';
     protected $primaryKey = 'id_npwp';
 
-    protected $fillable = ['nik', 'nomor_npwp', 'tanggungan', 'tgl_terdaftar', 'alamat','file'];
+    protected $fillable = ['id_peg', 'nik', 'nomor_npwp', 'tanggungan', 'tgl_terdaftar', 'alamat','file'];
+
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'id_peg');
+    }
 }

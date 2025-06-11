@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tb_karir', function (Blueprint $table) {
             $table->id();
             $table->string('transisi_no', 150)->nullable();
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('nik', 50)->nullable();
             $table->integer('jabatan_lama')->nullable();
             $table->integer('jabatan_baru')->nullable();
@@ -33,6 +34,8 @@ return new class extends Migration
             $table->text('alasan')->nullable();
             $table->string('execute_by', 255)->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 

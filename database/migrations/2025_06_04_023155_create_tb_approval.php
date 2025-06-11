@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('tb_approval', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_peg')->nullable()->unique();
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('nik', 50)->nullable();
             $table->string('nama', 255)->nullable();
             $table->string('atasan1_general', 25)->nullable();

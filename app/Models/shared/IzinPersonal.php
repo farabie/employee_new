@@ -18,4 +18,9 @@ class IzinPersonal extends Model
     {
         return $this->belongsTo(Pegawai::class, 'atasan1', 'id_peg');
     }
+
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'id_peg');
+    }
 }

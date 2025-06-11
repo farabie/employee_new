@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('tb_promosi_demosi', function (Blueprint $table) {
             $table->id();
             $table->integer('id_peg')->nullable();
-            $table->string('nik', 50)->nullable();
             $table->integer('jns_promosi_demosi')->nullable();
             $table->integer('jabatan_promosi_demosi')->nullable();
             $table->string('posisi_promosi_demosi', 100)->nullable();

@@ -9,5 +9,9 @@ class LimitReimbursementTahunLalu extends Model
 {
     use HasFactory; 
     protected $table = 'tb_limit_reimbursement_tahun_lalu';
-    protected $primaryKey = 'id';
+
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'id_peg');
+    }
 }

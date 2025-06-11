@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tb_selfservice_temporary', function (Blueprint $table) {
             $table->id();
             $table->string('no_request_ss', 25)->nullable();
-            $table->integer('id_peg')->nullable();
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('nik', 20)->nullable();
             $table->string('tipe_ss', 50)->nullable();
             $table->string('file_ktp', 255)->nullable();
@@ -96,6 +96,8 @@ return new class extends Migration
             $table->string('status_approval', 20)->nullable();
             $table->string('keterangan_reject', 20)->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 

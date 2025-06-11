@@ -10,7 +10,12 @@ class Medical extends Model
 {
     use HasFactory;
     protected $table = 'tb_pengajuan_medical';
-    protected $primaryKey = 'id ';
+
+
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'id_peg');
+    }
     
     public function getFormattedTglPengajuanAttribute()
     {

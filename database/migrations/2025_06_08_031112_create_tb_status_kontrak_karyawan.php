@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('tb_status_kontrak_karyawan', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_peg')->nullable();
+            $table->unsignedBigInteger('id_peg')->nullable();       
             $table->string('nik', 20)->nullable();
             $table->string('status_kontrak', 20)->nullable();
             $table->date('tgl_kontrak')->nullable();
             $table->integer('kontrak_ke')->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 

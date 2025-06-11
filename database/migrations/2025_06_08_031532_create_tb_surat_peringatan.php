@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tb_surat_peringatan', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_peg')->nullable();
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('nik', 20)->nullable();
             $table->string('jenis_sp', 10)->nullable();
             $table->date('periode_awal')->nullable();
@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('keterangan', 150)->nullable();
             $table->string('file', 100)->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 

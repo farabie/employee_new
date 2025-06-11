@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tb_meeting_room', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_peg')->nullable();
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('nik', 50)->nullable();
             $table->string('nama_peg', 255)->nullable();
             $table->string('divisi', 100)->nullable();
@@ -30,6 +30,8 @@ return new class extends Migration
             $table->string('keterangan_reschedule', 190)->nullable();
             $table->string('execute_by', 255)->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 
