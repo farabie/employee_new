@@ -9,7 +9,6 @@ class MasterPosisi extends Model
 {
     use HasFactory;
     protected $table = 'tb_master_posisi';
-    protected $primaryKey = 'id';
 
     protected $fillable = ['nama_posisi'];
 }

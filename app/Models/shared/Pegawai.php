@@ -3,6 +3,8 @@
 namespace App\Models\shared;
 
 use App\Models\hrd\Approval;
+use App\Models\hrd\Department;
+use App\Models\hrd\Divisi;
 use App\Models\hrd\Jabatan;
 use App\Models\hrd\Karir;
 use App\Models\hrd\KontrakKaryawan;
@@ -161,5 +163,15 @@ class Pegawai extends Model
     public function hakAksesPegawai()
     {
         return $this->hasOne(HakAksesPegawai::class, 'id_peg');
+    }
+
+    public function divisi()
+    {
+        return $this->belongsTo(Divisi::class, 'unit_kerja');
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'id_departement');
     }
 }

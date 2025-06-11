@@ -33,8 +33,8 @@ return new class extends Migration
             $table->string('telp', 16)->nullable();
             $table->string('email', 64)->nullable();
             $table->string('email_secondary', 64)->nullable();
-            $table->integer('unit_kerja')->nullable();
-            $table->integer('id_departement')->nullable();
+            $table->unsignedBigInteger('unit_kerja');
+            $table->unsignedBigInteger('id_departement')->nullable();
             $table->string('foto')->nullable();
             $table->date('tgl_pensiun')->nullable();
             $table->date('date_reg')->nullable();
@@ -61,6 +61,9 @@ return new class extends Migration
             $table->string('nama_kontak_darurat2', 150)->nullable();
             $table->string('hub_kontak_darurat2', 50)->nullable();
             $table->timestamps();
+
+            $table->foreign('unit_kerja')->references('id')->on('tb_unit')->onDelete('restrict');
+            $table->foreign('id_departement')->references('id')->on('tb_department')->onDelete('restrict');
         });
     }
 
