@@ -2,6 +2,7 @@
 
 namespace App\Models\shared;
 
+use App\Models\hrd\Approval;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +10,6 @@ class Pegawai extends Model
 {
     use HasFactory;
     protected $table = 'tb_pegawai';
-    protected $primaryKey = 'id_peg';
 
     protected $fillable = [
         'nik', 'nama', 'tempat_lhr', 'tgl_lhr', 'jk', 
@@ -22,4 +22,19 @@ class Pegawai extends Model
         'direktorat_approval', 'ams_role', 'ams_location', 'ims_hirarki', 'status_karyawan', 'tgl_kontrak', 'foto', 'tanggal_keluar',
         'atasan_1', 'atasan_2', 'file_ktp', 'file_sim', 'hak_cuti_tahun_berjalan', 'hak_cuti_tahun_1', 'hak_cuti_tahun_2'
     ];
+
+    public function anak()
+    {
+        return $this->hasMany(Anak::class, 'id_peg');
+    }
+
+    public function approval()
+    {
+        return $this->hasOne(Approval::class, 'id_peg');
+    }
+
+    public function bank()
+    {
+        return $this->hasMany(Bank::class, 'id_peg');
+    }
 }
