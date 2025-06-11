@@ -5,6 +5,7 @@ namespace App\Http\Controllers\hrd\masterSetup;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\hrd\DivisiRequest;
 use App\Models\hrd\Divisi;
+use Illuminate\Support\Facades\Auth;
 
 class DivisiController extends Controller
 {
@@ -28,7 +29,10 @@ class DivisiController extends Controller
    }
    
    public function store(DivisiRequest $request) {
-      Divisi::create($request->validated());
+       $validatedData = $request->validated();
+      $validatedData['execute_by'] = Auth::user()->nama_user;
+      
+      Divisi::create($validatedData);
       return to_route('divisi.index');
    }
 

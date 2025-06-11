@@ -14,7 +14,8 @@ class DivisiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama' => ['required', 'min:3', 'max:255', 'string']
+            'nama' => ['required', 'min:3', 'max:255', 'string'],
+            'execute_by' => ['nullable', 'string']
         ];
     }
 }

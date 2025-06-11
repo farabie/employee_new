@@ -30,6 +30,11 @@ class Pegawai extends Model
         'atasan_1', 'atasan_2', 'file_ktp', 'file_sim', 'hak_cuti_tahun_berjalan', 'hak_cuti_tahun_1', 'hak_cuti_tahun_2'
     ];
 
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id_peg', 'id');
+    }
+
     public function anak()
     {
         return $this->hasMany(Anak::class, 'id_peg');

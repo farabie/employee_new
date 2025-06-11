@@ -10,7 +10,7 @@ class Divisi extends Model
 {
     use HasFactory;
     protected $table = 'tb_unit';
-    protected $fillable = ['nama'];
+    protected $fillable = ['nama', 'execute_by'];
 
     public function pegawai()
     {

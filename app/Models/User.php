@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\shared\Pegawai;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,6 +29,10 @@ class User extends Authenticatable
         'session_token',
     ];
 
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'id_peg', 'id');
+    }
     
     // Override method untuk MD5 password
     public function getAuthPassword()
