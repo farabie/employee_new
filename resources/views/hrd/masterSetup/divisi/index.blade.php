@@ -67,11 +67,11 @@
                                     <td>{{ $data->nama }}</td>
                                     <td>
                                         <a type="button" class="btn btn-success"
-                                            href="{{ route('divisi.edit', $data->id_unit) }}" title="edit">
+                                            href="{{ route('divisi.edit', $data->id) }}" title="edit">
                                             <i class="fa-regular fa-pen-to-square"></i>
                                         </a>
                                         <a type="button" class="btn btn-danger btn-delete"
-                                            data-url="{{ route('divisi.destroy', $data->id_unit) }}"
+                                            data-url="{{ route('divisi.destroy', $data->id) }}"
                                             data-name="{{ $data->nama }}" title="hapus">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </a>

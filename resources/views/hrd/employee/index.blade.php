@@ -96,8 +96,8 @@
                                 <select id="divisi-filter" class="form-select">
                                     <option value="">Semua Divisi</option>
                                     @foreach ($divisi as $d)
-                                        <option value="{{ $d->id_unit }}"
-                                            {{ request('divisi') == $d->id_unit ? 'selected' : '' }}>
+                                        <option value="{{ $d->id }}"
+                                            {{ request('divisi') == $d->id ? 'selected' : '' }}>
                                             {{ $d->nama }}
                                         </option>
                                     @endforeach
@@ -116,12 +116,6 @@
                                 <input class="form-control" type="text" id="search-input" placeholder="Search..."
                                     value="{{ request('search') }}">
                             </div>
-                            {{-- <div class="col">
-                                <h6>Clear Filter</h6>
-                                <a href="#" id="clear-filter"
-                                    class="btn btn-success" type="button"><i
-                                        class="icofont icofont-brush"></i></a>
-                            </div> --}}
                         </div>
                     </div>
                 </div>

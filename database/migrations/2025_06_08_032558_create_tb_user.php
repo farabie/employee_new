@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('tb_user', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_peg')->nullable();
+            $table->unsignedBigInteger('id_peg')->nullable();
             $table->string('nik', 20)->nullable();
             $table->string('nama_user', 64)->nullable();
             $table->string('password', 255)->nullable();
             $table->integer('cp')->nullable();
             $table->string('hak_akses', 64)->nullable();
             $table->string('session_token', 64)->nullable();
+            $table->string('status_karyawan', 15)->nullable();
             $table->timestamps();
+
+            $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 

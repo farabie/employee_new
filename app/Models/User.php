@@ -27,8 +27,6 @@ class User extends Authenticatable
         'session_token',
     ];
 
-    // Disable timestamps jika tidak ada created_at/updated_at
-    public $timestamps = false;
     
     // Override method untuk MD5 password
     public function getAuthPassword()

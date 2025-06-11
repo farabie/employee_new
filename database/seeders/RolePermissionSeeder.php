@@ -82,6 +82,7 @@ class RolePermissionSeeder extends Seeder
                 'nama_user' => 'Hrd Admin',
                 'password' => md5('triasmitra'),
                 'hak_akses' => 'Hrd Admin',
+                'status_karyawan' => 'Active',
             ]
         );
 
@@ -95,6 +96,7 @@ class RolePermissionSeeder extends Seeder
                 'nik' => 'kadiv_hrd',
                 'nama_user' => 'Kepala Divisi HRD',
                 'hak_akses' => 'Kadiv HRD',
+                'status_karyawan' => 'Active',
                 'role_name' => 'Kadiv Hrd',
                 'permissions' => [
                     'dashboard',
@@ -108,6 +110,7 @@ class RolePermissionSeeder extends Seeder
                 'nik' => 'finance_verifikasi1',
                 'nama_user' => 'Finance Verifikasi 1',
                 'hak_akses' => 'Finance Verifikasi',
+                'status_karyawan' => 'Active',
                 'role_name' => 'Finance Verifikasi',
                 'permissions' => [
                     'dashboard',
@@ -121,6 +124,7 @@ class RolePermissionSeeder extends Seeder
                 'nik' => 'finance_treasury',
                 'nama_user' => 'Finance Treasury',
                 'hak_akses' => 'Finance Treasury',
+                'status_karyawan' => 'Active',
                 'role_name' => 'Finance Treasury',
                 'permissions' => [
                     'dashboard',
@@ -134,6 +138,7 @@ class RolePermissionSeeder extends Seeder
                 'nik' => 'ga_1',
                 'nama_user' => 'GA Fungsional Meeting Room',
                 'hak_akses' => 'GA Meeting Room',
+                'status_karyawan' => 'Active',
                 'role_name' => 'GA Meeting Room',
                 'permissions' => [
                     'dashboard',
@@ -147,6 +152,7 @@ class RolePermissionSeeder extends Seeder
                 'nik' => 'ga_2',
                 'nama_user' => 'GA Fungsional Kendaraan Operasional',
                 'hak_akses' => 'GA Kendaraan Operasional',
+                'status_karyawan' => 'Active',
                 'role_name' => 'GA Kendaraan Operasional',
                 'permissions' => [
                     'dashboard',
@@ -174,6 +180,7 @@ class RolePermissionSeeder extends Seeder
                     'nama_user' => $data['nama_user'],
                     'password' => md5('triasmitra'),
                     'hak_akses' => $data['hak_akses'],
+                    'status_karyawan' => $data['status_karyawan'],
                 ]
             );
 

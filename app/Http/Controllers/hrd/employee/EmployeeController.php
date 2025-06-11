@@ -68,7 +68,7 @@ class EmployeeController extends Controller
         $dateRange = $request->query('date'); // Optional: untuk filter tanggal
         $divisiFilter = $request->query('divisi', '');
 
-        $query = Pegawai::leftJoin('tb_jabatan', 'tb_pegawai.id_peg', '=', 'tb_jabatan.id_peg');
+        $query = Pegawai::leftJoin('tb_jabatan', 'tb_pegawai.id', '=', 'tb_jabatan.id_peg');
 
         // $divisi = Divisi::groupBy('nama')->get();
         $divisi = Divisi::latest()->get()->unique('nama');
@@ -76,7 +76,7 @@ class EmployeeController extends Controller
         if ($status === 'All') {
             $query->where('tb_pegawai.nik', 'like', 'KT%');
         } elseif ($status === 'Active') {
-            $query->join('tb_user', 'tb_pegawai.id_peg', '=', 'tb_user.id_peg')
+            $query->join('tb_user', 'tb_pegawai.id', '=', 'tb_user.id_peg')
                   ->where('tb_user.hak_akses', 'Pegawai')
                   ->where('tb_pegawai.status_karyawan', 'Active');
         } else { // Inactive
@@ -110,7 +110,7 @@ class EmployeeController extends Controller
     
         $pegawai = $query
         // ->groupby('tb_jabatan.id_peg')
-        ->orderBy('tb_pegawai.id_peg', 'ASC')->get();
+        ->orderBy('tb_pegawai.id', 'ASC')->get();
     
         // Jika request AJAX, kembalikan JSON dengan partial view
         if ($request->ajax()) {

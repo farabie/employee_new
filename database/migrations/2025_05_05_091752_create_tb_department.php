@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('tb_department', function (Blueprint $table) {
             $table->id();
             $table->string('nama_department', 100);
-            $table->string('keterangan', 150)->nullable();
             $table->string('execute_by', 255)->nullable();
             $table->timestamps();
         });

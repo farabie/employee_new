@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('telp', 16)->nullable();
             $table->string('email', 64)->nullable();
             $table->string('email_secondary', 64)->nullable();
-            $table->unsignedBigInteger('unit_kerja');
+            $table->unsignedBigInteger('unit_kerja')->nullable();
             $table->unsignedBigInteger('id_departement')->nullable();
             $table->string('foto')->nullable();
             $table->date('tgl_pensiun')->nullable();
