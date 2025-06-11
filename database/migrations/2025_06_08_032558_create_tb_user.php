@@ -15,12 +15,11 @@ return new class extends Migration
             $table->id();
             $table->integer('id_peg')->nullable();
             $table->string('nik', 20)->nullable();
-            $table->string('username', 20)->nullable();
             $table->string('nama_user', 64)->nullable();
             $table->string('password', 255)->nullable();
             $table->integer('cp')->nullable();
-            $table->string('hak_akses', 16)->nullable();
-            $table->string('session_token', 16)->nullable();
+            $table->string('hak_akses', 64)->nullable();
+            $table->string('session_token', 64)->nullable();
             $table->timestamps();
         });
     }

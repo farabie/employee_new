@@ -77,9 +77,8 @@ class RolePermissionSeeder extends Seeder
 
         // 6. Create HRD Admin User
         $hrdAdmin = User::firstOrCreate(
-            ['id_user' => 'hr1'],
-            [
-                'id_peg' => 0,
+            ['nik' => 'hr1'],
+            [                
                 'nama_user' => 'Hrd Admin',
                 'password' => md5('triasmitra'),
                 'hak_akses' => 'Hrd Admin',
@@ -93,7 +92,7 @@ class RolePermissionSeeder extends Seeder
         // 7. Custom Users and Roles
         $customUsers = [
             [
-                'id_user' => 'kadiv_hrd',
+                'nik' => 'kadiv_hrd',
                 'nama_user' => 'Kepala Divisi HRD',
                 'hak_akses' => 'Kadiv HRD',
                 'role_name' => 'Kadiv Hrd',
@@ -106,7 +105,7 @@ class RolePermissionSeeder extends Seeder
                 ],
             ],
             [
-                'id_user' => 'finance_verifikasi1',
+                'nik' => 'finance_verifikasi1',
                 'nama_user' => 'Finance Verifikasi 1',
                 'hak_akses' => 'Finance Verifikasi',
                 'role_name' => 'Finance Verifikasi',
@@ -119,7 +118,7 @@ class RolePermissionSeeder extends Seeder
                 ],
             ],
             [
-                'id_user' => 'finance_treasury',
+                'nik' => 'finance_treasury',
                 'nama_user' => 'Finance Treasury',
                 'hak_akses' => 'Finance Treasury',
                 'role_name' => 'Finance Treasury',
@@ -132,7 +131,7 @@ class RolePermissionSeeder extends Seeder
                 ],
             ],
             [
-                'id_user' => 'ga_1',
+                'nik' => 'ga_1',
                 'nama_user' => 'GA Fungsional Meeting Room',
                 'hak_akses' => 'GA Meeting Room',
                 'role_name' => 'GA Meeting Room',
@@ -145,7 +144,7 @@ class RolePermissionSeeder extends Seeder
                 ],
             ],
             [
-                'id_user' => 'ga_2',
+                'nik' => 'ga_2',
                 'nama_user' => 'GA Fungsional Kendaraan Operasional',
                 'hak_akses' => 'GA Kendaraan Operasional',
                 'role_name' => 'GA Kendaraan Operasional',
@@ -170,9 +169,8 @@ class RolePermissionSeeder extends Seeder
             $role->syncPermissions($permissions);
 
             $user = User::firstOrCreate(
-                ['id_user' => $data['id_user']],
+                ['nik' => $data['nik']],
                 [
-                    'id_peg' => 0,
                     'nama_user' => $data['nama_user'],
                     'password' => md5('triasmitra'),
                     'hak_akses' => $data['hak_akses'],
@@ -184,76 +182,4 @@ class RolePermissionSeeder extends Seeder
             }
         }
     }
-    //  public function run(): void
-    // {
-    //     // 1. Modular Permissions
-    //     $modules = [
-    //         'dashboard' => ['access'],
-    //         'karyawan' => ['informasi semua', 'create', 'detail'],
-    //         'divisi' => ['view', 'create', 'edit', 'delete'],
-    //         'departemen' => ['view', 'create', 'edit', 'delete'],
-    //         'jabatan' => ['view', 'create', 'edit', 'delete'],
-    //         'grade' => ['view', 'create', 'edit', 'delete'],
-    //         'lokasi kerja' => ['view', 'create', 'edit', 'delete'],
-    //         'lokasi posisi' => ['view', 'create', 'edit', 'delete'],
-    //         'reset password karyawan' => ['view', 'reset'],
-    //         'struktur orchart' => ['view', 'edit'],
-    //         'approval' => ['cuti tahunan','cuti umum','cuti besar','spd','medical','kendaraan operasional'],
-    //         'hari libur nasional' => ['view', 'create', 'edit', 'delete'],
-    //         'hari pemotongan cuti' => ['view', 'create'],
-    //         'kuota cuti karyawan' => ['view', 'create'],
-    //         'tracking' => ['cuti', 'izin personal', 'spd', 'medical'],
-    //     ];
-
-    //     // 2. Create permissions and store in a collection
-    //     $allPermissions = collect();
-
-    //     foreach ($modules as $module => $actions) {
-    //         foreach ($actions as $action) {
-    //             $name = $module === 'dashboard' && $action === 'access' 
-    //                 ? 'dashboard' 
-    //                 : "$action $module";
-
-    //             $permission = Permission::firstOrCreate(['name' => $name, 'guard_name' => 'web']);
-    //             $allPermissions->push($permission);
-    //         }
-    //     }
-
-    //     // 3. Create Roles
-    //     $hrdAdminRole = Role::firstOrCreate(['name' => 'Hrd Admin']);
-    //     $pegawaiRole = Role::firstOrCreate(['name' => 'Pegawai']);
-
-    //     // 4. Assign all permissions to HRD Admin
-    //     $hrdAdminRole->syncPermissions($allPermissions);
-
-    //     // 5. Assign limited permissions to Pegawai
-    //     $pegawaiPermissionNames = [
-    //         'dashboard',
-    //         'tracking cuti',
-    //         'tracking izin personal',
-    //         'tracking spd',
-    //         'tracking medical',
-    //     ];
-
-    //     $pegawaiPermissions = $allPermissions->filter(function ($permission) use ($pegawaiPermissionNames) {
-    //         return in_array($permission->name, $pegawaiPermissionNames);
-    //     });
-
-    //     $pegawaiRole->syncPermissions($pegawaiPermissions);
-
-    //     // 6. Create HRD Admin User
-    //     $hrdAdmin = User::firstOrCreate(
-    //     ['id_user' => 'hr1'],
-    //     [
-    //         'id_peg' => 0,
-    //         'nama_user' => 'Hrd Admin',
-    //         'password' => md5('triasmitra'),
-    //         'hak_akses' => 'Hrd Admin',
-    //     ]
-    // );
-
-    //     if (!$hrdAdmin->hasRole($hrdAdminRole->name)) {
-    //         $hrdAdmin->assignRole($hrdAdminRole);
-    //     }
-    // }
 }

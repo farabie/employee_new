@@ -41,7 +41,7 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         // Manual authentication dengan MD5
-        $user = User::where('id_user', $this->nik)->first();
+        $user = User::where('nik', $this->nik)->first();
         
         if (!$user) {
             RateLimiter::hit($this->throttleKey());

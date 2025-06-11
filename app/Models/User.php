@@ -13,13 +13,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable, HasRoles;
     
     protected $table = 'tb_user';
-    protected $primaryKey = 'id_user';
-
-    // Set remember token name
     protected $rememberTokenName = 'session_token';
-
-    public $incrementing = false;
-    protected $keyType = 'string';
     
     protected $fillable = [
         'nik',
