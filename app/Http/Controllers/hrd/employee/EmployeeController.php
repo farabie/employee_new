@@ -36,6 +36,7 @@ use App\Models\shared\Anak;
 use App\Models\shared\Bahasa;
 use App\Models\shared\Bank;
 use App\Models\shared\Cuti;
+use App\Models\shared\HakAksesPegawai;
 use App\Models\shared\IzinPersonal;
 use App\Models\shared\KendaraanOperasional;
 use App\Models\shared\KopensasiCutiBesar;
@@ -50,8 +51,10 @@ use App\Models\shared\Pelatihan;
 use App\Models\shared\Pendidikan;
 use App\Models\shared\PengalamanKerja;
 use App\Models\shared\Penghargaan;
+use App\Models\shared\SaldoCuti;
 use App\Models\shared\Sertifikasi;
 use App\Models\shared\Spd;
+use App\Models\shared\StrukturOrganisasi;
 use App\Models\shared\SuamiIstri;
 use App\Models\shared\User;
 use Illuminate\Http\Request;
@@ -59,6 +62,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class EmployeeController extends Controller
 {
@@ -1535,26 +1539,9 @@ class EmployeeController extends Controller
         // Data awal untuk approval dan hirarki (bisa dikosongkan atau diisi default)
         $dataApproval = collect(); // Collection kosong atau data default
         $dataHirarki = collect();  // Collection kosong atau data default
-
-
-        //Approval Atasan
-        // $dataApproval = Pegawai::where('nik', '!=', '')
-        // ->where('status_karyawan', 'Active')
-        // ->where('nik', 'NOT LIKE', '%FKT%')
-        // ->distinct('nik')
-        // ->get();
-
-        // $dataHirarki = Pegawai::join('tb_jabatan', 'tb_pegawai.id_peg', '=', 'tb_jabatan.id_peg')
-        // ->where('nik', '!=', '')
-        // ->where('status_karyawan', 'Active')
-        // ->where('nik', 'NOT LIKE', '%FKT%')
-        // ->where('tb_jabatan.jabatan', '!=', 6)
-        // ->select('tb_pegawai.nama', 'tb_pegawai.nik')
-        // ->get();
-
     
         // Ambil data direksi
-        $dataDirektorat = Pegawai::join('tb_jabatan', 'tb_pegawai.id_peg', '=', 'tb_jabatan.id_peg')
+        $dataDirektorat = Pegawai::join('tb_jabatan', 'tb_pegawai.id', '=', 'tb_jabatan.id_peg')
         ->where('tb_jabatan.jabatan', '6')
         ->select('tb_pegawai.nama', 'tb_pegawai.nik')
         ->get();
@@ -1565,7 +1552,7 @@ class EmployeeController extends Controller
         $tahunBulan = substr($datenow, -4); // Ambil 4 digit terakhir: 2505
 
         // Ambil nik terakhir
-        $lastNik = Pegawai::orderByDesc('id_peg')->value('nik');
+        $lastNik = Pegawai::orderByDesc('id')->value('nik');
         $lastNumber = 0;
 
         // Ekstrak 4 digit terakhir dari NIK terakhir jika ada
@@ -1640,13 +1627,22 @@ class EmployeeController extends Controller
             ->distinct('nik')
             ->get();
 
-        $dataHirarki = Pegawai::join('tb_jabatan', 'tb_pegawai.id_peg', '=', 'tb_jabatan.id_peg')
-            ->where('nik', '!=', '')
+        // $dataHirarki = Pegawai::join('tb_jabatan', 'tb_pegawai.id', '=', 'tb_jabatan.id_peg')
+        //     ->where('tb_pegawai.nik', '!=', '')
+        //     ->where('tb_pegawai.status_karyawan', 'Active')
+        //     ->where('tb_pegawai.nik', 'NOT LIKE', '%FKT%')
+        //     ->where('tb_jabatan.jabatan', '!=', 6)
+        //     ->where('tb_pegawai.unit_kerja', $unit_kerja) // Filter berdasarkan unit kerja
+        //     ->select('tb_pegawai.nama', 'tb_pegawai.nik')
+        //     ->get();
+        $dataHirarki = Pegawai::where('nik', '!=', '')
             ->where('status_karyawan', 'Active')
             ->where('nik', 'NOT LIKE', '%FKT%')
-            ->where('tb_jabatan.jabatan', '!=', 6)
-            ->where('tb_pegawai.unit_kerja', $unit_kerja) // Filter berdasarkan unit kerja
-            ->select('tb_pegawai.nama', 'tb_pegawai.nik')
+            ->where('unit_kerja', $unit_kerja)
+            ->whereHas('jabatan', function($query) {
+                $query->where('jabatan', '!=', 6);
+            })
+            ->select('nama', 'nik')
             ->get();
 
         return response()->json([
@@ -1769,17 +1765,12 @@ class EmployeeController extends Controller
                 'tanggal_masuk' => $validated['tanggal_masuk'],
                 'lok_kerja' => $validated['lok_kerja'],
                 'jenis_peg' => $validated['jenis_peg'],
-                'unit_approval' => $validated['unit_approval'],
-                'subsi_approval' => $validated['subsi_approval'],
-                'kasie_approval' => $validated['kasie_approval'],
-                'kadept_approval' => $validated['kadept_approval'],
-                'kadiv_approval' => $validated['kadiv_approval'],
-                'direktorat_approval' => $validated['direktorat_approval'],
                 'foto' => $fotoName,
                 'alamat_domisili' => $validated['alamat_domisili'],
                 'file_ktp' => $fileKtpName,
                 'file_sim' => $fileSimName,
             ]);
+
 
             $id_peg = $dataPegawai->id_peg;
 
@@ -1790,6 +1781,18 @@ class EmployeeController extends Controller
                 $filename = time() . '_' . $file->getClientOriginalName(); // Generate unique name
                 $file->storeAs('assets/file/sk_pegawai', $filename, 'public');
             }
+
+            $dataOrganisasi = StrukturOrganisasi::create([
+                'id_peg' => $id_peg,
+                'nik' => $validated['nik'],
+                'unit_approval' => $validated['unit_approval'],
+                'subsi_approval' => $validated['subsi_approval'],
+                'kasie_approval' => $validated['kasie_approval'],
+                'kadept_approval' => $validated['kadept_approval'],
+                'kadiv_approval' => $validated['kadiv_approval'],
+                'direktorat_approval' => $validated['direktorat_approval'],
+            ]);
+
             $dataJabatan = Jabatan::create([
                 'id_peg' => $id_peg,
                 'id_user' => $validated['nik'],
@@ -1857,6 +1860,12 @@ class EmployeeController extends Controller
                 'nama_user' => $validated['nama'],
                 'hak_akses' => 'Pegawai',
                 'password' => 'ad791d23f07d40c964ab0dac4fab7e98',
+                'status_karyawan' => 'Active'
+            ]); 
+
+            $dataHakAksesPegawai = HakAksesPegawai::create([
+                'id_peg' => $id_peg,
+                'nik' => $validated['nik'],
                 'hris' => $hris,
                 'aas' => $aas,
                 'ams' => $ams,
@@ -1870,7 +1879,22 @@ class EmployeeController extends Controller
                 'aas_c' => $validated['aas_c'],
                 'aas_r' => $validated['aas_r'],
                 'id_role' => $id_role,
-            ]); 
+            ]);
+
+
+
+            $time = Carbon::now();
+            $tahun_sekarang = $time->format('Y');
+            $bulan_sekarang = $time->format('n');
+
+            $saldoCuti = SaldoCuti::create([
+                'id_peg' => $id_peg,
+                'nik' => $validated['nik'],
+                'tahun' => $tahun_sekarang,
+                'jenis_cuti' => 'tahunan',
+                'hak_cuti_awal' => $bulan_sekarang,
+                'sisa_cuti' => $bulan_sekarang,
+            ]);
 
             DB::commit();
 
@@ -1910,24 +1934,24 @@ class EmployeeController extends Controller
                             $errorData = $response->json(); // ambil response sebagai array
                             $wrongOnly = isset($errorData['wrong']) ? json_encode($errorData['wrong']) : $response->body();
 
-                            $dataUser->update([
+                            $dataHakAksesPegawai->update([
                                 'ams_synced' => false,
                                 'ams_sync_error' => $wrongOnly,
                             ]);
                         } else {
                         // Berhasil Sync
-                        $dataUser->update([
+                        $dataHakAksesPegawai->update([
                             'ams_synced' => true,
                             'ams_sync_error' => null,
                         ]);
-                        $dataPegawai->update([
-                            'ams_role' => $validated['ams_role'],
-                            'ams_location' => $validated['ams_location'],
-                        ]);
+                        // $dataPegawai->update([
+                        //     'ams_role' => $validated['ams_role'],
+                        //     'ams_location' => $validated['ams_location'],
+                        // ]);
                     }
                 } catch (\Exception $e) {
                     // Tangani jika API error atau timeout
-                    $dataUser->update([
+                    $dataHakAksesPegawai->update([
                         'ams_synced' => false,
                         'ams_sync_error' => $e->getMessage(),
                     ]);
@@ -1958,13 +1982,13 @@ class EmployeeController extends Controller
                             $errorData = $response->json(); // ambil response sebagai array
                             $wrongOnly = isset($errorData['wrong']) ? json_encode($errorData['wrong']) : $response->body();
 
-                            $dataUser->update([
+                            $dataHakAksesPegawai->update([
                                 'ims_synced' => false,
                                 'ims_sync_error' => $wrongOnly,
                             ]);
                         } else {
                         // Tandai berhasil sync
-                        $dataUser->update([
+                        $dataHakAksesPegawai->update([
                             'ims_synced' => true,
                             'ims_sync_error' => null,
                         ]);
@@ -1975,7 +1999,7 @@ class EmployeeController extends Controller
                     }
                 } catch (\Exception $e) {
                     // Tangani jika API error atau timeout
-                    $dataUser->update([
+                    $dataHakAksesPegawai->update([
                         'ims_synced' => false,
                         'ims_sync_error' => $e->getMessage(),
                     ]);
@@ -2055,18 +2079,4 @@ class EmployeeController extends Controller
             ], 500);
         }
     }
-
-
-
-    // public function getHirarkiByUnit($unitId)
-    // {
-    //     $pegawai = Pegawai::where('unit_kerja', $unitId)
-    //         ->where('status_karyawan', 'Active')
-    //         ->where('nik', '!=', '')
-    //         ->where('nik', 'NOT LIKE', '%FKT%')
-    //         ->select('nik', 'nama')
-    //         ->get();
-
-    //     return response()->json($pegawai);
-    // }
 }

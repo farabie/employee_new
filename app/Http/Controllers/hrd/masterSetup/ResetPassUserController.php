@@ -9,13 +9,13 @@ class ResetPassUserController extends Controller
 {
     public function index() {
             $user = User::where('hak_akses', 'Pegawai')
-                    ->orderBy('id_user', 'ASC')
+                    ->orderBy('nik', 'ASC')
                     ->get();
             return view('hrd.masterSetup.resetPassUser.index', compact('user'));
     }
 
-    public function resetPassword($id_user) {
-        $user = User::where('id_user', $id_user)->first();
+    public function resetPassword($nik) {
+        $user = User::where('nik', $nik)->first();
         if ($user) {
             $user->password = '4edfd2bae7c4276e7566366389168648';
             $user->save();

@@ -373,7 +373,7 @@
                                             <select name="unit_kerja" id="unit_kerja" class="js-example-basic-single">
                                                 <option selected disabled value="">Pilih Divisi</option>
                                                 @foreach ($unit_kerja as $data)
-                                                    <option value="{{ $data->id_unit }}">
+                                                    <option value="{{ $data->id }}">
                                                         {{ $data->nama }}
                                                     </option>
                                                 @endforeach

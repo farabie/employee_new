@@ -18,7 +18,7 @@ class MasterEselonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_masteresl' => ['required', 'min:3', 'max:255', 'string'],
+            'nama_masteresl' => ['required', 'string'],
             'execute_by' => ['nullable', 'string']
         ];
     }

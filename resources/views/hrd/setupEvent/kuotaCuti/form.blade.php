@@ -97,9 +97,9 @@
                                     Tahun Cuti</label>
                                 <select class="form-select" required="" name="jenis_tahun_cuti" id="jenis_tahun_cuti">
                                     <option selected disabled value="">Pilih Tahun Cuti</option>
-                                    <option value="hak_cuti_tahun_berjalan">{{ $tahun_berjalan }}</option>
-                                    <option value="hak_cuti_tahun_2">{{ $satu_tahun_lalu }}</option>
-                                    <option value="hak_cuti_tahun_1">{{ $dua_tahun_lalu }}</option>
+                                    <option value="tahun_berjalan">{{ $tahun_berjalan }}</option>
+                                    <option value="satu_tahun_lalu">{{ $satu_tahun_lalu }}</option>
+                                    <option value="dua_tahun_lalu">{{ $dua_tahun_lalu }}</option>
                                     {{-- <option value="hak_cuti_besar">Cuti Besar</option> --}}
                                 </select>
                                 <div class="invalid-feedback">Pilih jenis cuti terlebih dahulu</div>

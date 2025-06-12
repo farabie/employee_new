@@ -5,13 +5,10 @@ namespace App\Models\shared;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StrukturOrganisasi extends Model
+class SaldoCuti extends Model
 {
     use HasFactory;
-    protected $table = 'tb_struktur_organisasi';
-    protected $fillable = [          
-        'unit_approval', 'subsi_approval', 'kasie_approval', 'kadept_approval', 'kadiv_approval',
-        'direktorat_approval'];
+    protected $table = 'tb_pengajuan_spd';
 
     public function pegawai()
     {

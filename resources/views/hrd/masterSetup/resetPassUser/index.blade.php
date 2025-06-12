@@ -90,21 +90,21 @@
                                 @foreach ($user as $data )
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $data->id_user }}</td>
+                                    <td>{{ $data->nik }}</td>
                                     <td>{{ $data->nama_user }}</td>
                                     <td>****</td>
                                     <td>{{ $data->hak_akses }}</td>
                                     <td>
                                         <a type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#changePassword{{ $data->id_user }}" data-bs-placement="top" 
+                                            data-bs-target="#changePassword{{ $data->nik }}" data-bs-placement="top" 
                                             data-bs-title="Change Password">
                                             <i class="fa-solid fa-arrows-rotate"></i>
                                         </a>
                                     </td>
                                 </tr>
 
-                                <div class="modal fade" id="changePassword{{ $data->id_user }}" tabindex="-1"
-                                    role="dialog" aria-labelledby="changePassword{{ $data->id_user }}"
+                                <div class="modal fade" id="changePassword{{ $data->nik }}" tabindex="-1"
+                                    role="dialog" aria-labelledby="changePassword{{ $data->nik }}"
                                     aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
@@ -114,13 +114,13 @@
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <h5>Password {{ $data->id_user }} akan direset menjadi
+                                                <h5>Password {{ $data->nik }} akan direset menjadi
                                                     2024rising8</h5>
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn btn-secondary" type="button"
                                                     data-bs-dismiss="modal">Tutup</button>
-                                                <form action="{{ route('reset.password', $data->id_user) }}"
+                                                <form action="{{ route('reset.password', $data->nik) }}"
                                                     method="POST" style="display: inline;">
                                                     @csrf
                                                     <button type="submit" class="btn btn-primary">Kirim</button>

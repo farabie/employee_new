@@ -11,7 +11,6 @@ class ApprovalUserController extends Controller
 {
     public function index() {
         $approvalSummary = Approval::query()
-            ->first()
             ->get()
             ->map(function ($approval) {
                 // Ambil semua atasan_1 dan atasan_2

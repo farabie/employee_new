@@ -16,19 +16,19 @@ class TrackingDocumentController extends Controller
         $trackingCutiTahunan = Cuti::query()
                 ->with(['pegawai', 'pengganti', 'atasan1', 'atasan2']) 
                 ->where('id_mastercuti', '1')
-                ->orderBy('id_cuti', 'desc')
+                ->orderBy('id', 'desc')
                 ->get();
 
         $trackingCutiUmum = Cuti::query()
         ->with(['pegawai', 'pengganti', 'atasan1', 'atasan2']) 
         ->whereNotIn('id_mastercuti', [1, 2])
-        ->orderBy('id_cuti', 'desc')
+        ->orderBy('id', 'desc')
         ->get();
 
         $trackingCutiBesar = Cuti::query()
         ->with(['pegawai', 'pengganti', 'atasan1', 'atasan2']) 
         ->where('id_mastercuti', '2')
-        ->orderBy('id_cuti', 'desc')
+        ->orderBy('id', 'desc')
         ->get();
 
         return view('hrd.trackingDocument.cuti.index-cuti', 
@@ -90,19 +90,46 @@ class TrackingDocumentController extends Controller
         ]);
     }
 
+    // public function indexMedical()
+    // {
+    //     $trackingMedical = Medical::query()
+    //         ->join('tb_pegawai', 'tb_pegawai.nik', '=', 'tb_pengajuan_medical.nik')
+    //         ->where(function ($query) {
+    //             $query->where('tb_pengajuan_medical.hard_copy', 'received')
+    //                   ->orWhere('tb_pengajuan_medical.approve_hrd', 'verified');
+    //         })
+    //         ->select(
+    //             'tb_pengajuan_medical.*',
+    //             'tb_pegawai.nama'
+    //         )
+    //         ->groupBy('tb_pengajuan_medical.nomor_medical_claim')
+    //         ->orderByDesc('tb_pengajuan_medical.tgl_pengajuan')
+    //         ->get();
+
+    //     foreach ($trackingMedical as $data) {
+    //         $data->kwitansiYear = \Carbon\Carbon::parse($data->tgl_bukti_kwitansi)->year ?? null;
+    //     }
+        
+    //     $currentYear = date('Y');
+    //     $lastYear = date('Y') - 1;
+        
+
+    //     return view('hrd.trackingDocument.medical.index-medical', compact('trackingMedical', 'currentYear', 'lastYear'));
+    // }
+
     public function indexMedical()
     {
         $trackingMedical = Medical::query()
             ->join('tb_pegawai', 'tb_pegawai.nik', '=', 'tb_pengajuan_medical.nik')
             ->where(function ($query) {
                 $query->where('tb_pengajuan_medical.hard_copy', 'received')
-                      ->orWhere('tb_pengajuan_medical.approve_hrd', 'verified');
+                    ->orWhere('tb_pengajuan_medical.approve_hrd', 'verified');
             })
             ->select(
                 'tb_pengajuan_medical.*',
                 'tb_pegawai.nama'
             )
-            ->groupBy('tb_pengajuan_medical.nomor_medical_claim')
+            ->distinct()
             ->orderByDesc('tb_pengajuan_medical.tgl_pengajuan')
             ->get();
 
@@ -113,7 +140,6 @@ class TrackingDocumentController extends Controller
         $currentYear = date('Y');
         $lastYear = date('Y') - 1;
         
-
         return view('hrd.trackingDocument.medical.index-medical', compact('trackingMedical', 'currentYear', 'lastYear'));
     }
 
@@ -229,8 +255,8 @@ class TrackingDocumentController extends Controller
             compact('nomor_medical_claim','nik', 'nama', 'hard_copy', 'approve_hrd', 'keterangan_reject_hrd', 'approve_gm_hrd', 'hard_copy_finance', 'status_finance_verified', 'paid', 'number_revision', 'medical_original', 'medical_query', 'medical'));
     }
 
-    public function detailCutiTahunan($id_cuti) {;
-        $cutiTahunan = Cuti::where('id_cuti', $id_cuti)
+    public function detailCutiTahunan($id) {;
+        $cutiTahunan = Cuti::where('id', $id)
         ->with(['pegawai', 'pengganti', 'atasan1', 'atasan2']) 
         ->where('id_mastercuti', '1')
         ->first();
@@ -256,8 +282,8 @@ class TrackingDocumentController extends Controller
         ]);
     }
 
-    public function detailCutiUmum($id_cuti) {
-        $cutiUmum = Cuti::where('id_cuti', $id_cuti)
+    public function detailCutiUmum($id) {
+        $cutiUmum = Cuti::where('id', $id)
         ->with(['pegawai', 'pengganti', 'atasan1', 'atasan2']) 
         ->whereNotIn('id_mastercuti', [1, 2])
         ->first();
@@ -283,8 +309,8 @@ class TrackingDocumentController extends Controller
         ]);
     }
 
-    public function detailCutiBesar($id_cuti) {
-        $cutiBesar = Cuti::where('id_cuti', $id_cuti)
+    public function detailCutiBesar($id) {
+        $cutiBesar = Cuti::where('id', $id)
         ->with(['pegawai', 'pengganti', 'atasan1', 'atasan2']) 
         ->where('id_mastercuti', '2')
         ->first();

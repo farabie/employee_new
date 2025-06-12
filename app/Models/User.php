@@ -18,10 +18,7 @@ class User extends Authenticatable
     protected $rememberTokenName = 'session_token';
     
     protected $fillable = [
-        'nik',
-        'nama_user',
-        'password',
-        'session_token', // tambahkan ke fillable
+        'id_peg','nik','nama_user', 'hak_akses','password', 'session_token',
     ];
 
     protected $hidden = [
