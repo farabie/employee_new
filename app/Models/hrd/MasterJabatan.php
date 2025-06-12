@@ -10,5 +10,5 @@ class MasterJabatan extends Model
     use HasFactory;
     protected $table = 'tb_masterjab';
 
-    protected $fillable = ['nama_masterjab', 'kode_jabatan'];
+    protected $fillable = ['nama_masterjab', 'kode_jabatan', 'execute_by'];
 }

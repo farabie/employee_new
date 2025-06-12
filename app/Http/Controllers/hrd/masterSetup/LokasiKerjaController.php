@@ -5,6 +5,7 @@ namespace App\Http\Controllers\hrd\masterSetup;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\hrd\LokasiKerjaRequest;
 use App\Models\hrd\LokasiKerja;
+use Illuminate\Support\Facades\Auth;
 
 class LokasiKerjaController extends Controller
 {
@@ -28,7 +29,10 @@ class LokasiKerjaController extends Controller
     }
 
     public function store(LokasiKerjaRequest $request) {
-      LokasiKerja::create($request->validated());
+      $validatedData = $request->validated();
+      $validatedData['execute_by'] = Auth::user()->nama_user;
+
+      LokasiKerja::create($validatedData);
       return to_route('lokasi-kerja.index')->with('success', 'Data berhasil ditambahkan');
     }
 

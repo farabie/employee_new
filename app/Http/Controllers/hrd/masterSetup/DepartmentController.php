@@ -5,6 +5,7 @@ namespace App\Http\Controllers\hrd\masterSetup;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\hrd\DepartmentRequest;
 use App\Models\hrd\Department;
+use Illuminate\Support\Facades\Auth;
 
 class DepartmentController extends Controller
 {
@@ -28,8 +29,11 @@ class DepartmentController extends Controller
    }
 
    public function store(DepartmentRequest $request) {
-     Department::create($request->validated());
-     return to_route('department.index');
+      $validatedData = $request->validated();
+      $validatedData['execute_by'] = Auth::user()->nama_user;
+
+      Department::create($validatedData);
+      return to_route('department.index');
    }
 
    public function edit(Department $department) {;

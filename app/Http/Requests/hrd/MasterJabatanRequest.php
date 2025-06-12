@@ -18,6 +18,7 @@ class MasterJabatanRequest extends FormRequest
     {
         return [
             'kode_jabatan' => ['nullable', 'string'],
+            'execute_by' => ['nullable', 'string'],
             'nama_masterjab' => ['required', 'min:3', 'max:255', 'string']
         ];
     }

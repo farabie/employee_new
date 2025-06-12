@@ -10,7 +10,7 @@ class Department extends Model
 {
     use HasFactory;
     protected $table = 'tb_department';
-    protected $fillable = ['nama_department'];
+    protected $fillable = ['nama_department', 'execute_by'];
 
     public function pegawai()
     {

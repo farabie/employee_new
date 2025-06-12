@@ -17,7 +17,8 @@ class MasterPosisiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_posisi' => ['required', 'min:3', 'max:255', 'string']
+            'nama_posisi' => ['required', 'min:3', 'max:255', 'string'],
+            'execute_by' => ['nullable', 'string']
         ];
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\hrd\MasterJabatanRequest;
 use App\Models\hrd\MasterJabatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MasterJabatanController extends Controller
 {
@@ -34,6 +35,7 @@ class MasterJabatanController extends Controller
 
         // Generate kode_jabatan dari nama_masterjab
         $validated['kode_jabatan'] = $this->generateKodeJabatan($validated['nama_masterjab']);
+        $validated['execute_by'] = Auth::user()->nama_user;
 
         // Simpan data ke database
         MasterJabatan::create($validated);

@@ -10,5 +10,5 @@ class MasterPosisi extends Model
     use HasFactory;
     protected $table = 'tb_master_posisi';
 
-    protected $fillable = ['nama_posisi'];
+    protected $fillable = ['nama_posisi', 'execute_by'];
 }

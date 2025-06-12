@@ -10,5 +10,5 @@ class LokasiKerja extends Model
     use HasFactory;
     protected $table = 'tb_master_lokasi_kerja';
 
-    protected $fillable = ['nama_lok_kerja'];
+    protected $fillable = ['nama_lok_kerja', 'execute_by'];
 }

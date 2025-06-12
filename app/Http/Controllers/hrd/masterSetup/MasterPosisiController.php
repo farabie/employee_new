@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\hrd\MasterPosisiRequest;
 use App\Models\hrd\MasterPosisi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MasterPosisiController extends Controller
 {
@@ -29,7 +30,10 @@ class MasterPosisiController extends Controller
     }
 
     public function store(MasterPosisiRequest $request) {
-      MasterPosisi::create($request->validated());
+      $validatedData = $request->validated();
+      $validatedData['execute_by'] = Auth::user()->nama_user;
+
+      MasterPosisi::create($validatedData);
       return to_route('master-posisi.index')->with('success', 'Data berhasil ditambahkan');
     }
 

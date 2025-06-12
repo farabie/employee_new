@@ -22,7 +22,8 @@ class LokasiKerjaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_lok_kerja' => ['required', 'min:3', 'max:100', 'string']
+            'nama_lok_kerja' => ['required', 'min:3', 'max:100', 'string'],
+            'execute_by' => ['nullable', 'string']
         ];
     }
 }

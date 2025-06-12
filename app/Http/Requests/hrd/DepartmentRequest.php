@@ -14,7 +14,8 @@ class DepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-           'nama_department' => ['required', 'min:3', 'max:255', 'string']
+           'nama_department' => ['required', 'min:3', 'max:255', 'string'],
+           'execute_by' => ['nullable', 'string']
         ];
     }
 }

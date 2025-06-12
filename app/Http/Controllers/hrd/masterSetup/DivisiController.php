@@ -29,7 +29,7 @@ class DivisiController extends Controller
    }
    
    public function store(DivisiRequest $request) {
-       $validatedData = $request->validated();
+      $validatedData = $request->validated();
       $validatedData['execute_by'] = Auth::user()->nama_user;
       
       Divisi::create($validatedData);
