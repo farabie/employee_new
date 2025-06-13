@@ -56,7 +56,7 @@ use App\Models\shared\Sertifikasi;
 use App\Models\shared\Spd;
 use App\Models\shared\StrukturOrganisasi;
 use App\Models\shared\SuamiIstri;
-use App\Models\shared\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -72,34 +72,35 @@ class EmployeeController extends Controller
         $dateRange = $request->query('date'); // Optional: untuk filter tanggal
         $divisiFilter = $request->query('divisi', '');
 
-        $query = Pegawai::leftJoin('tb_jabatan', 'tb_pegawai.id', '=', 'tb_jabatan.id_peg');
+        $query = Pegawai::with(['jabatan', 'user']);
 
-        // $divisi = Divisi::groupBy('nama')->get();
         $divisi = Divisi::latest()->get()->unique('nama');
         
         if ($status === 'All') {
-            $query->where('tb_pegawai.nik', 'like', 'KT%');
+            $query->where('nik', 'like', 'KT%');
         } elseif ($status === 'Active') {
-            $query->join('tb_user', 'tb_pegawai.id', '=', 'tb_user.id_peg')
-                  ->where('tb_user.hak_akses', 'Pegawai')
-                  ->where('tb_pegawai.status_karyawan', 'Active');
+            $query->whereHas('user', function($q) {
+                $q->where('hak_akses', 'Pegawai');
+            })->where('status_karyawan', 'Active');
         } else { // Inactive
-            $query->where('tb_pegawai.status_karyawan', 'Inactive')
-                  ->where('tb_pegawai.nik', 'like', 'KT%');
+            $query->where('status_karyawan', 'Inactive')
+              ->where('nik', 'like', 'KT%');
         }
     
         // Tambahkan filter pencarian
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
-                $q->where('tb_pegawai.nama', 'like', "%$search%")
-                  ->orWhere('tb_pegawai.email', 'like', "%$search%")
-                  ->orWhere('tb_pegawai.nik', 'like', "%$search%")
-                  ->orWhere('tb_jabatan.posisi', 'like', "%$search%");
+                $q->where('nama', 'like', "%$search%")
+                ->orWhere('email', 'like', "%$search%")
+                ->orWhere('nik', 'like', "%$search%")
+                ->orWhereHas('jabatan', function($subQ) use ($search) {
+                    $subQ->where('posisi', 'like', "%$search%");
+                });
             });
         }
         // Filter berdasarkan divisi jika dipilih
         if (!empty($divisiFilter)) {
-            $query->where('tb_pegawai.unit_kerja', $divisiFilter);
+            $query->where('unit_kerja', $divisiFilter);
         }
 
         // Optional: Tambahkan filter berdasarkan tanggal jika diperlukan
@@ -108,13 +109,11 @@ class EmployeeController extends Controller
             if (count($dates) == 2) {
                 $startDate = \Carbon\Carbon::createFromFormat('d-m-Y', trim($dates[0]))->format('Y-m-d');
                 $endDate = \Carbon\Carbon::createFromFormat('d-m-Y', trim($dates[1]))->format('Y-m-d');
-                $query->whereBetween('tb_pegawai.tanggal_masuk', [$startDate, $endDate]);
+                $query->whereBetween('tanggal_masuk', [$startDate, $endDate]);
             }
         }
     
-        $pegawai = $query
-        // ->groupby('tb_jabatan.id_peg')
-        ->orderBy('tb_pegawai.id', 'ASC')->get();
+        $pegawai = $query->orderBy('id', 'ASC')->get();
     
         // Jika request AJAX, kembalikan JSON dengan partial view
         if ($request->ajax()) {
@@ -128,39 +127,51 @@ class EmployeeController extends Controller
 
 
     public function detail($nik) {
-        $query = Pegawai::leftJoin('tb_jabatan', 'tb_pegawai.id_peg', '=', 'tb_jabatan.id_peg')
-                ->leftJoin('tb_masterjab', 'tb_jabatan.jabatan', '=', 'tb_masterjab.id')
-                // Self Join untuk mengambil nama atasan_1
-                ->leftJoin('tb_pegawai as atasan1', 'tb_pegawai.atasan_1', '=', 'atasan1.id_peg')
-                // Self Join untuk mengambil nama atasan_2
-                ->leftJoin('tb_pegawai as atasan2', 'tb_pegawai.atasan_2', '=', 'atasan2.id_peg')
-                // Join ke tb_unit untuk ambil nama unit kerja
-                ->leftJoin('tb_unit', 'tb_pegawai.unit_kerja', '=', 'tb_unit.id_unit')
-                // Join ke tb_department untuk ambil nama departemen
-                ->leftJoin('tb_department', 'tb_pegawai.id_departement', '=', 'tb_department.id')
-                ->where('tb_pegawai.nik', $nik)
-                ->select(
-                    'tb_pegawai.*',
-                    'tb_jabatan.*',
-                    'tb_masterjab.nama_masterjab',
-                    'atasan1.nama as nama_atasan_1',
-                    'atasan2.nama as nama_atasan_2',
-                    'tb_unit.nama as nama_unit_kerja',
-                    'tb_department.nama_department'
-                );
+        // $query = Pegawai::leftJoin('tb_jabatan', 'tb_pegawai.id', '=', 'tb_jabatan.id_peg')
+        //         ->leftJoin('tb_masterjab', 'tb_jabatan.jabatan', '=', 'tb_masterjab.id')
+        //         // Self Join untuk mengambil nama atasan_1
+        //         ->leftJoin('tb_pegawai as atasan1', 'tb_pegawai.atasan_1', '=', 'atasan1.id_peg')
+        //         // Self Join untuk mengambil nama atasan_2
+        //         ->leftJoin('tb_pegawai as atasan2', 'tb_pegawai.atasan_2', '=', 'atasan2.id_peg')
+        //         // Join ke tb_unit untuk ambil nama unit kerja
+        //         ->leftJoin('tb_unit', 'tb_pegawai.unit_kerja', '=', 'tb_unit.id_unit')
+        //         // Join ke tb_department untuk ambil nama departemen
+        //         ->leftJoin('tb_department', 'tb_pegawai.id_departement', '=', 'tb_department.id')
+        //         ->where('tb_pegawai.nik', $nik)
+        //         ->select(
+        //             'tb_pegawai.*',
+        //             'tb_jabatan.*',
+        //             'tb_masterjab.nama_masterjab',
+        //             'atasan1.nama as nama_atasan_1',
+        //             'atasan2.nama as nama_atasan_2',
+        //             'tb_unit.nama as nama_unit_kerja',
+        //             'tb_department.nama_department'
+        //         );
 
-        $pegawai = $query->first();
+        // $pegawai = $query->first();
+        $pegawai = Pegawai::with([
+            'jabatan',
+            'divisi', 
+            'department',
+            'approval',
+            'approval.atasan1',  // Load approval beserta atasan1
+            'approval.atasan2'   // Load approval beserta atasan2
+        ])->where('nik', $nik)->first();
+
+        if (!$pegawai) {
+            return redirect()->back()->with('error', 'Pegawai tidak ditemukan');
+        }
 
         $kontakDarurat = Pegawai::where('nik', $nik)
                         ->select('kontak_darurat1', 'nama_kontak_darurat1', 'hub_kontak_darurat1', 'kontak_darurat2', 'nama_kontak_darurat2', 'hub_kontak_darurat2')
                         ->get();
 
-        $suamiIstri = SuamiIstri::where('id_user', $nik)
+        $suamiIstri = SuamiIstri::where('nik', $nik)
                     ->get();
-        $ortu = Ortu::where('id_user', $nik)
+        $ortu = Ortu::where('nik', $nik)
                ->orderBy('tgl_lhr', 'desc')
                ->get();
-        $anak = Anak::where('id_user', $nik)
+        $anak = Anak::where('nik', $nik)
         ->get();
         $pendidikan = Pendidikan::where('nik', $nik)
         ->get();
@@ -179,7 +190,7 @@ class EmployeeController extends Controller
         ->select('tb_jabatan.*', 
                  'tb_masterjab.nama_masterjab as nama_jabatan', 
                  'tb_masteresl.nama_masteresl as grade')
-        ->where('id_user', $nik)
+        ->where('nik', $nik)
         ->get();
 
         $approval = Approval::query()
@@ -1372,7 +1383,7 @@ class EmployeeController extends Controller
             // Cek apakah status_karyawan menjadi 'Inactive'
             if ($request->input('status_karyawan') === 'Inactive') {
                 // Hapus data user yang sesuai
-                $deleted = User::where('id_user', $nik)->delete();
+                $deleted = User::where('nik', $nik)->delete();
             }
             // Pastikan respons JSON dikembalikan untuk AJAX request
             if ($request->expectsJson()) {
@@ -1491,7 +1502,7 @@ class EmployeeController extends Controller
             PenilaianAkhir::where('nik', $nik)->delete();
             PengalamanKerja::where('nik', $nik)->delete();
             IzinPersonal::where('nik', $nik)->delete();
-            Jabatan::where('id_user', $nik)->delete();
+            Jabatan::where('nik', $nik)->delete();
             Karir::where('nik', $nik)->delete();
             KendaraanOperasional::where('nik', $nik)->delete();
             KopensasiCutiBesar::where('nik', $nik)->delete();
@@ -1772,7 +1783,7 @@ class EmployeeController extends Controller
             ]);
 
 
-            $id_peg = $dataPegawai->id_peg;
+            $id_peg = $dataPegawai->id;
 
             $filename = null;
             // Process file upload if present
@@ -1795,7 +1806,7 @@ class EmployeeController extends Controller
 
             $dataJabatan = Jabatan::create([
                 'id_peg' => $id_peg,
-                'id_user' => $validated['nik'],
+                'nik' => $validated['nik'],
                 'jabatan' => $validated['jabatan'],
                 'eselon' => $validated['eselon'],
                 'posisi' => $validated['posisi'],
@@ -1805,6 +1816,7 @@ class EmployeeController extends Controller
             ]);
 
             $dataApproval = Approval::create([
+                'id_peg' => $id_peg,
                 'nik' => $validated['nik'],
                 'nama' => $validated['nama'],
                 'atasan1_general' => $validated['atasan1_general'],
@@ -1831,6 +1843,7 @@ class EmployeeController extends Controller
 
             $dataKarir = Karir::create([
                 'transisi_no' => $transisiNo,
+                'id_peg' => $id_peg,
                 'nik' => $validated['nik'],
                 'jabatan_baru' => $validated['jabatan'],
                 'posisi_baru' => $validated['eselon'],
@@ -1855,13 +1868,14 @@ class EmployeeController extends Controller
             $id_role = $aas === 1 ? 1 : null;
 
             $dataUser = User::create([
-                'id_user' => $validated['nik'],
                 'id_peg' => $id_peg,
                 'nama_user' => $validated['nama'],
                 'hak_akses' => 'Pegawai',
                 'password' => 'ad791d23f07d40c964ab0dac4fab7e98',
                 'status_karyawan' => 'Active'
             ]); 
+
+            $dataUser->assignRole('Pegawai');
 
             $dataHakAksesPegawai = HakAksesPegawai::create([
                 'id_peg' => $id_peg,
@@ -1892,8 +1906,9 @@ class EmployeeController extends Controller
                 'nik' => $validated['nik'],
                 'tahun' => $tahun_sekarang,
                 'jenis_cuti' => 'tahunan',
-                'hak_cuti_awal' => $bulan_sekarang,
-                'sisa_cuti' => $bulan_sekarang,
+                'hak_cuti_awal' => 0,
+                'sisa_cuti' => 0,
+                'status_saldo_cuti' => 'Active'
             ]);
 
             DB::commit();

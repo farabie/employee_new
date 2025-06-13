@@ -68,13 +68,6 @@
             width: 100%;
         }
 
-        /* .foto-karyawan-upload-wrapper {
-                            display: block;
-                            margin: 0 auto;
-                            position: relative;
-                            max-width: 300px;
-                        } */
-
         .foto-karyawan-upload-wrapper {
             position: relative;
             display: inline-block;
@@ -109,23 +102,6 @@
             display: block;
         }
 
-        /* Style untuk icon edit */
-        /* .edit-foto-icon {
-                        position: absolute;
-                        bottom: 10px;
-                        right: 10px;
-                        width: 40px;
-                        height: 40px;
-                        background-color: #007bff;
-                        border-radius: 50%;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        cursor: pointer;
-                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-                        transition: all 0.3s ease;
-                        z-index: 10;
-                    } */
 
         .edit-foto-icon {
             position: absolute;
@@ -283,7 +259,7 @@
                                     <div class="ttl-info text-start">
                                         <h6><i class="fa-solid fa-sitemap pe-2"></i>Divisi</h6>
                                         <span>
-                                            {{ $pegawai->nama_unit_kerja ?? '-' }}
+                                            {{ $pegawai->divisi->nama ?? '-' }}
                                         </span>
                                     </div>
                                 </div>
@@ -291,20 +267,20 @@
                                     <div class="ttl-info text-start">
                                         <h6><i class="fa-solid fa-diagram-project pe-2"></i>Departement</h6>
                                         <span>
-                                            {{ $pegawai->nama_department ?? '-' }}
+                                            {{ $pegawai->department->nama_department ?? '-' }}
                                         </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6">
                                     <div class="ttl-info text-start">
                                         <h6><i class="fa-solid fa-briefcase pe-2"></i>Jabatan</h6>
-                                        <span>{{ $pegawai->nama_masterjab ?? '-' }}</span>
+                                        <span>{{ $pegawai->jabatan->masterJabatan->nama_masterjab ?? '-' }}</span>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6">
                                     <div class="ttl-info text-start">
                                         <h6><i class="fa-solid fa-tasks pe-2"></i>Posisi</h6>
-                                        <span>{{ $pegawai->posisi ?? '-' }}</span>
+                                        <span>{{ $pegawai->jabatan->posisi ?? '-' }}</span>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6">
@@ -359,10 +335,10 @@
                                     <div class="ttl-info text-start">
                                         <h6><i class="fa-solid fa-user pe-2"></i>Atasan 1</h6>
                                         <span>
-                                            @if ($pegawai->nama_atasan_1 == '')
+                                            @if ($pegawai->approval?->atasan1?->nama == '')
                                                 -
                                             @else
-                                                {{ $pegawai->nama_atasan_1 }}
+                                                {{ $pegawai->approval?->atasan1?->nama }}
                                             @endif
                                         </span>
                                     </div>
@@ -371,10 +347,10 @@
                                     <div class="ttl-info text-start">
                                         <h6><i class="fa-solid fa-user pe-2"></i>Atasan 2</h6>
                                         <span>
-                                            @if ($pegawai->nama_atasan_2 == '')
+                                            @if ($pegawai->approval?->atasan2?->nama == '')
                                                 -
                                             @else
-                                                {{ $pegawai->nama_atasan_2 }}
+                                                {{ $pegawai->approval?->atasan2?->nama }}
                                             @endif
                                         </span>
                                     </div>

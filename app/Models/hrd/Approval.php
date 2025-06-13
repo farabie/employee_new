@@ -16,4 +16,14 @@ class Approval extends Model
     {
         return $this->belongsTo(Pegawai::class, 'id_peg');
     }
+
+    public function atasan1()
+    {
+        return $this->belongsTo(Pegawai::class, 'atasan1_general', 'nik'); 
+    }
+
+    public function atasan2()
+    {
+        return $this->belongsTo(Pegawai::class, 'atasan2_general', 'nik'); 
+    }
 }

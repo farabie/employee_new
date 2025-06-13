@@ -21,8 +21,8 @@
                             {{ $data->nama }}
                         </h6>
                         <p class="pb-1 text-muted text-truncate small" style="max-width: 200px;"
-                            title="{{ !empty($data->posisi) ? $data->posisi : '-' }}">
-                            {{ !empty($data->posisi) ? $data->posisi : '-' }}
+                            title="{{ !empty($data->jabatan->posisi) ? $data->jabatan->posisi : '-' }}">
+                            {{ !empty($data->jabatan->posisi) ? $data->jabatan->posisi : '-' }}
                         </p>
                         <p class="pb-1 text-muted text-truncate small" style="max-width: 200px;"
                             title="{{ !empty($data->email) ? $data->email : '-' }}">

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('jenis_cuti', ['tahunan', 'besar'])->default('tahunan');
             $table->integer('hak_cuti_awal')->default(0);
             $table->integer('sisa_cuti')->default(0);
+            $table->string('status_saldo_cuti', 15)->nullable();
             $table->date('expired_date')->nullable();
             $table->timestamps();
 

@@ -32,6 +32,7 @@ return new class extends Migration
             $table->integer('rms')->nullable();
             $table->integer('dms')->nullable();
             $table->integer('cms')->nullable();
+            $table->integer('shocart')->nullable();
             $table->timestamps();
 
             $table->foreign('id_peg')->references('id')->on('tb_pegawai')->onDelete('cascade');

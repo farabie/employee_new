@@ -19,4 +19,8 @@ class Jabatan extends Model
     {
         return $this->belongsTo(Pegawai::class, 'id_peg');
     }
+
+    public function masterJabatan() {
+        return $this->belongsTo(MasterJabatan::class, 'jabatan', 'id');
+    }
 }
